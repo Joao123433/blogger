@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { InfoContainer, IntroContainer, TitleContainer } from "./styled";
+import { AboutMeContainer, HomeContainer, InfoContainer, IntroContainer, TitleContainer } from "./styled";
 
 export function Home() {
   return (
-    <main>
+    <HomeContainer>
       <IntroContainer>
         <div />
         <TitleContainer>
@@ -11,6 +11,7 @@ export function Home() {
           <h1>The minimal blog</h1>
         </TitleContainer>
       </IntroContainer>
+      
       <InfoContainer>
         <div>
           <h2>Blog Posts</h2>
@@ -28,7 +29,18 @@ export function Home() {
           <NavLink to="/about">About Me</NavLink>
         </div>
       </InfoContainer>
-    </main>
+      <AboutMeContainer>
+        <div>
+          <h6>ABOUT ME</h6>
+          <h1>Welcome friend.</h1>
+          <p>I am Joshua, a blogger based in San Francisco, blogging about minimalism and simplicity.</p>
+          <NavLink to="/news">Go to blog</NavLink>
+        </div>
+        <div>
+          <img src="https://mllj2j8xvfl0.i.optimole.com/w:600/h:600/q:mauto/f:best/ig:avif/https://demosites.io/blogger-gb/wp-content/uploads/sites/388/2020/10/neve-minimal-blogger-02-1.jpg" alt="" />
+        </div>
+      </AboutMeContainer>
+    </HomeContainer>
   )
     
 }

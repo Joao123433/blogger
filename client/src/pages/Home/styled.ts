@@ -1,12 +1,18 @@
 import styled from 'styled-components';
 
+export const HomeContainer = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: 4.5rem;
+`;
+
 export const IntroContainer = styled.section`
-  min-height: 650px;
+  min-height: 590px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 
-  margin-top: 1rem;
+  margin-top: 3rem;
 
   &::after {
     content: "";
@@ -19,12 +25,16 @@ export const IntroContainer = styled.section`
     background-color: #FFD66B;
     border-radius: 50%;
 
-    @media (min-width: 600px) {
+    @media (min-width: 601px) {
       display: grid;
       width: 550px;
       height: 550px;
       left: calc(50% - 250px);
     }
+  }
+
+  @media (max-width: 600px) {
+    min-height: 390px;
   }
 `;
 
@@ -57,7 +67,6 @@ export const InfoContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: .8rem;
-  min-height: 250px;
 
   div {
     display: flex;
@@ -70,11 +79,48 @@ export const InfoContainer = styled.section`
 
     a {
       color: black;
+      width: fit-content;
 
 
       &:hover {
         color: ${(props) => props.theme['gray-500']};
       }
+    }
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+`;
+
+export const AboutMeContainer = styled.section`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+   
+    a {
+      color: black;
+      width: fit-content;
+
+      &:hover {
+        color: ${(props) => props.theme['gray-500']};
+      }
+    }
+
+    img {
+      max-width: 100%;
+      max-height: 100%;
     }
   }
 `;

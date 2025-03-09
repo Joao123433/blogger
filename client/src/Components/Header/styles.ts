@@ -18,6 +18,17 @@ export const HeaderContainer = styled.header`
     color: black;
 
     border-bottom: 3px solid transparent;
+      
+    position: relative;
+    padding-bottom: 5px;
+  }
+
+  svg {
+    cursor: pointer;
+  }
+
+  svg:hover {
+    color: ${(props) => props.theme['gray-500']};
   }
 `;
 
@@ -32,21 +43,30 @@ export const NavContainer = styled.nav`
     display: flex;
   }
 
-  a:hover {
-    border-bottom: 3px solid ${(props) => props.theme['gray-100']};
+  a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 3px;
+    background-color: transparent;
+    transition: all .2s ease-out;
+  }
+
+  a:hover::after {
+    width: 100%;
+    left: 0;
+    background-color: ${(props) => props.theme['gray-500']};
   }
 
   a.active {
-    color: ${(props) => props.theme['gray-100']};
+    color: ${(props) => props.theme['gray-500']};
   }
 `;
 
 export const HamburguerContainer = styled.div`
   display: flex;
-
-  svg {
-    cursor: pointer;
-  }
 
   @media (min-width: 1000px) {
     display: none;
@@ -67,20 +87,42 @@ export const DrawerContainer = styled(Drawer)`
       cursor: pointer;
     }
 
+    svg:hover {
+      color: ${(props) => props.theme['gray-500']};
+    }
+
     a {
+      text-align: right;
       text-decoration: none;
       color: black;
 
       border-bottom: 3px solid transparent;
       font-size: 1.1rem;
-    }
 
-    a:hover {
-      border-bottom: 3px solid ${(props) => props.theme['gray-100']};
-    }
+      width: 100%;
+      position: relative;
+      padding-bottom: 5px;
 
-    a.active {
-      color: ${(props) => props.theme['gray-100']};
+      &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 0;
+        height: 3px;
+        background-color: transparent;
+        transition: all .2s ease-out;
+      }
+
+      &:hover::after {
+        width: 100%;
+        left: 0;
+        background-color: ${(props) => props.theme['gray-500']};
+      }
+
+      &.active {
+        color: ${(props) => props.theme['gray-500']};
+      }
     }
   }
 `;

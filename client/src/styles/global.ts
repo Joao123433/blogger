@@ -11,10 +11,6 @@ export const GlobalStyle = createGlobalStyle`
     outline: 0;
   }
 
-  body {
-    padding: 0 .7rem;
-  }
-
   body, input, textarea, button {
     font-family: "Poppins", sans-serif;
     font-weight: 400;

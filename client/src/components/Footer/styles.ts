@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const FooterContainer = styled.footer`
   display: none;
-  margin-top: 4.5rem;
+  padding: 4.5rem 0;
 
   @media (min-width: 1000px) {
     display: grid;

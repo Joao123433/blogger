@@ -2,11 +2,14 @@ import { Drawer } from '@mui/material';
 import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
+  max-width: 1170px;
+  margin: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
   min-height: 4.3rem;
   justify-content: space-between;
+  padding: 0 1rem;
 
   h1 {
     font-size: 1.5rem;
@@ -15,7 +18,7 @@ export const HeaderContainer = styled.header`
 
   a {
     text-decoration: none;
-    color: black;
+    color: ${(props) => props.theme['text-black']};
 
     border-bottom: 3px solid transparent;
       
@@ -94,7 +97,7 @@ export const DrawerContainer = styled(Drawer)`
     a {
       text-align: right;
       text-decoration: none;
-      color: black;
+      color: ${(props) => props.theme['text-black']};
 
       border-bottom: 3px solid transparent;
       font-size: 1.1rem;

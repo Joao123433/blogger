@@ -7,10 +7,13 @@ export const HomeContainer = styled.main`
 `;
 
 export const IntroContainer = styled.section`
+  max-width: 1170px;
+  margin: auto;
   min-height: 590px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  padding: 2.5rem 1rem;
 
   margin-top: 3rem;
 
@@ -64,9 +67,12 @@ export const TitleContainer = styled.div`
 `;
 
 export const InfoContainer = styled.section`
+  max-width: 1170px;
+  margin: auto;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: .8rem;
+  padding: 2.5rem 1rem;
 
   div {
     display: flex;
@@ -78,7 +84,7 @@ export const InfoContainer = styled.section`
     }
 
     a {
-      color: black;
+      color: ${(props) => props.theme['text-black']};
       width: fit-content;
 
 
@@ -95,54 +101,57 @@ export const InfoContainer = styled.section`
 `;
 
 export const AboutMeContainer = styled.section`
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  /* background-color: #14171C; */
-  padding: 2.5rem 1rem;
+  background-color: ${(props) => props.theme['bg-dark']};
+  color: ${(props) => props.theme['text-white']};
 
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
-
-  div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    /* color: #fff; */
-
-    h6 {
-      font-weight: bold;
+  section {
+    margin: auto;
+    max-width: 1170px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 2.5rem 1rem;
+  
+  
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
     }
-   
-    a {
-      /* color: #fff; */
-      color: #000;
-      width: fit-content;
-
-      &:hover {
-        color: ${(props) => props.theme['gray-500']};
+  
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+  
+      h6 {
+        font-weight: bold;
       }
-    }
-
-    img {
-      max-width: 100%;
-      max-height: 100%;
+     
+      a {
+        color: ${(props) => props.theme['text-white']};
+        width: fit-content;
+  
+        &:hover {
+          color: ${(props) => props.theme['gray-500']};
+        }
+      }
+  
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
     }
   }
 `;
 
 export const BlogTopicsContainer = styled.section`
+  max-width: 1170px;
+  margin: auto;
   display: flex;
   flex-direction: column;
   gap: 1rem;
   height: fit-content;
-
-  @media (max-width: 600px) {
-    padding: 0 2rem;
-  }
+  padding: 2.5rem 1rem;
 
   p {
     font-weight: bold;
@@ -177,7 +186,7 @@ export const ImgContainer = styled.div`
     }
 
     a {
-      color: #000;
+      color: ${(props) => props.theme['text-black']};
       width: fit-content;
 
       &:hover {
@@ -188,6 +197,8 @@ export const ImgContainer = styled.div`
 `;
 
 export const ContactContainer = styled.section`
+  max-width: 1170px;
+  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;

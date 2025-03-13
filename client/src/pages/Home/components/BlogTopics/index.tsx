@@ -10,7 +10,7 @@ export function BlogTopics() {
         <div>
           <img src="https://mllj2j8xvfl0.i.optimole.com/w:400/h:600/q:mauto/f:best/ig:avif/https://demosites.io/blogger-gb/wp-content/uploads/sites/388/2020/10/neve-minimal-blogger-01-1.jpg"  alt="" />
           <h3>People</h3>
-          <NavLink to="/news">Viwe Post</NavLink>
+          <NavLink to="/news">View Post</NavLink>
         </div>
         <div>
           <img src="https://mllj2j8xvfl0.i.optimole.com/w:400/h:600/q:mauto/f:best/ig:avif/https://demosites.io/blogger-gb/wp-content/uploads/sites/388/2020/10/neve-minimal-blogger-06-1.jpg" alt="" />

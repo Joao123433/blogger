@@ -26,6 +26,10 @@ export const AboutMeContainer = styled.section`
       h6 {
         font-weight: bold;
       }
+
+      h1 {
+        font-size: 2rem;
+      }
      
       a {
         color: ${(props) => props.theme['text-white']};

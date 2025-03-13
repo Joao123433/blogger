@@ -20,7 +20,7 @@ export function BlogTopics() {
         <div>
           <img src="https://mllj2j8xvfl0.i.optimole.com/w:230/h:345/q:mauto/f:best/ig:avif/https://demosites.io/blogger-gb/wp-content/uploads/sites/388/2020/10/neve-minimal-blogger-11-ogw6v2xhiykjkglcbcath685qobodkmr0r3cplch9s.jpg" alt="" />
           <h3>Abstract</h3>
-          <NavLink to="/news">Viwe Post</NavLink>
+          <NavLink to="/news">View Post</NavLink>
         </div>
       </ImgContainer>
       <ContactContainer>

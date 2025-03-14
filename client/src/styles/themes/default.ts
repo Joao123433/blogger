@@ -12,4 +12,5 @@ export const defaultTheme = {
 	'gray-900': '#121214',
 
 	'bg-dark': '#14171C',
+	'bg-circle': '#FFD66B',
 };

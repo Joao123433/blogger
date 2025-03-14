@@ -11,7 +11,7 @@ export const IntroContainer = styled.section`
 
   margin-top: 3rem;
 
-  &::after {
+  h1::after {
     content: "";
     width: 374px;
     height: 374px;
@@ -19,7 +19,7 @@ export const IntroContainer = styled.section`
     left: calc(50% - 187px);
     z-index: -1;
 
-    background-color: #FFD66B;
+    background-color: ${(props) => props.theme['bg-circle']};
     border-radius: 50%;
 
     @media (min-width: 601px) {

@@ -37,6 +37,8 @@ export function About() {
         <h1>My Story</h1>
         <p>This blog is where I blend my love for photography and fashion with storytelling. Here, I share the journey behind the camera—what it takes to frame the perfect shot, the creative chaos of a shoot, and my reflections on how fashion continues to evolve. You’ll also find tips for aspiring photographers, insights into the industry, and a celebration of the moments that inspire me every day.</p>
       </MyStoryContainer>
+
+      
     </>
   )
 }

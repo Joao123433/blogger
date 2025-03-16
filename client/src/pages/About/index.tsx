@@ -6,7 +6,7 @@ export function About() {
     <>
       <TitleContainer>
         <h1>About me</h1>
-      </TitleContainer>
+      </TitleContainer> 
 
       <PortraitContainer>
         <img src="https://mllj2j8xvfl0.i.optimole.com/w:405/h:402/q:mauto/f:best/ig:avif/https://demosites.io/blogger-gb/wp-content/uploads/sites/388/2019/11/neve-minimal-blogger-03.jpg" alt="" />
@@ -33,12 +33,12 @@ export function About() {
       </LeanMoreLayout>
 
       <MyStoryContainer>
-        <p>What I blog about</p>
+        <h6>WHAT I BLOG ABOUT</h6>
         <h1>My Story</h1>
+        <div>&nbsp;</div>
         <p>This blog is where I blend my love for photography and fashion with storytelling. Here, I share the journey behind the camera—what it takes to frame the perfect shot, the creative chaos of a shoot, and my reflections on how fashion continues to evolve. You’ll also find tips for aspiring photographers, insights into the industry, and a celebration of the moments that inspire me every day.</p>
       </MyStoryContainer>
 
-      
     </>
   )
 }

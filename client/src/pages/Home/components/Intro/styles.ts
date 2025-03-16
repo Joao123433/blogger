@@ -11,7 +11,7 @@ export const IntroContainer = styled.section`
 
   margin-top: 3rem;
 
-  h1::after {
+  &::after {
     content: "";
     width: 374px;
     height: 374px;

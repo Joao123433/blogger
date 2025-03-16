@@ -103,22 +103,33 @@ export const MyStoryContainer = styled.section`
   min-height: 590px;
   padding: 4rem 1rem;
   margin: auto;
+  gap: 1rem;
 
-  &::after {
-    content: "";
+  h6 {
+    font-weight: bold;
+    font-size: .9rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  div {
     width: 150px;
     height: 150px;
     left: calc(50% - 75px);
 
     background-color: ${(props) => props.theme['bg-circle']};
     border-radius: 50%;
-
-    /* @media (min-width: 601px) {
-      display: grid;
-      width: 150px;
-      height: 150px;
-      left: calc(50% - 75px);
-    } */
   }
 
+  p {
+    width: 55%;
+    text-align: center;
+    line-height: 1.7rem;
+
+    @media (max-width: 800px) {
+      width: 90%;
+    }
+  }
 `;

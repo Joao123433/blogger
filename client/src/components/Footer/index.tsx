@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { FooterContainer } from "./styles";
 
 export function Footer() {
@@ -11,11 +12,10 @@ export function Footer() {
         <div>
           <h3>Popular Posts</h3>
           <nav>
-            <p>2020 trends in home decor</p>
-            <p>Blog tips for beginners</p>
-            <p>Join Zabibas Global Giveaway</p>
-            <p>Why is living coral color of the year?</p>
-            <p>Venice Stay & Thoughts</p>
+            <NavLink to="/news">Blog tips for beginners</NavLink>
+            <NavLink to="/news">Join Zabibas Global Giveaway</NavLink>
+            <NavLink to="/news">Why is living coral color of the year?</NavLink>
+            <NavLink to="/news">Venice Stay & Thoughts</NavLink>
           </nav>
         </div>
         <div>

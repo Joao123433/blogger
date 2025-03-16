@@ -32,8 +32,14 @@ export const FooterContainer = styled.footer`
         flex-direction: column;
         gap: .4rem;
 
-        p {
+        a {
           font-weight: normal;
+          color: ${(props) => props.theme['text-white']};
+          text-decoration: none;
+
+          &:hover{
+            color: ${(props) => props.theme['gray-500']};
+          }
         }
       }
     }

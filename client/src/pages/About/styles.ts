@@ -16,7 +16,7 @@ export const TitleContainer = styled.section`
   }
   
   @media (max-width: 600px) {
-    height: 5rem;
+    height: 10rem;
 
     h1 {
       font-size: 50px;

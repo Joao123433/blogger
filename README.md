@@ -11,7 +11,7 @@ Este projeto utiliza as seguintes tecnologias:
 ```
 /blogger
 │── client/  # Aplicação React + Styled Components
-│── server
+│── server   # API Node + Fastify + Drizzle ORM + PostgreSQL + Docker
 │── README.md  # Documentação Principal
 ```
 

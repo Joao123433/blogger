@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import { client, db } from '.';
-import { posts } from './schema';
+import { comments, posts } from './schema';
 
 async function seed() {
 	await db.delete(posts);
 
-	await db
+	const [post] = await db
 		.insert(posts)
 		.values([
 			{
@@ -21,6 +21,15 @@ async function seed() {
 			},
 		])
 		.returning();
+
+	await db.insert(comments).values([
+		{
+			name: 'Teste',
+			email: 'Teste@gmail.com',
+			comment: 'lorem ialksdf',
+			idPost: post.id,
+		},
+	]);
 }
 
 seed().then(() => {

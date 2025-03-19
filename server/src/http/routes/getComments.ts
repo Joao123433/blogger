@@ -10,6 +10,8 @@ const commentsSchema = z.object({
 	email: z.string().email().nonempty(),
 	comment: z.string().nonempty(),
 	idPost: z.string().nonempty(),
+	createdAt: z.string().nonempty(),
+	updatedAt: z.string().nonempty(),
 });
 
 export const getCommentsRouter: FastifyPluginAsyncZod = async (app) => {
@@ -24,6 +26,8 @@ export const getCommentsRouter: FastifyPluginAsyncZod = async (app) => {
 					email: comments.email,
 					comment: comments.comment,
 					idPost: comments.idPost,
+					createdAt: comments.createdAt,
+					updatedAt: comments.updatedAt,
 				})
 				.from(comments),
 	);

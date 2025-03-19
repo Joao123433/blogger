@@ -3,7 +3,10 @@ import { client, db } from '.';
 import { comments, posts } from './schema';
 
 async function seed() {
+	await db.delete(comments);
 	await db.delete(posts);
+
+	const dateFormat = dayjs().format('YYYY-MM-DD HH:mm:ss');
 
 	const [post] = await db
 		.insert(posts)
@@ -28,6 +31,8 @@ async function seed() {
 			email: 'Teste@gmail.com',
 			comment: 'lorem ialksdf',
 			idPost: post.id,
+			createdAt: dayjs(new Date()).format('YYYY-MM-DD'),
+			updatedAt: dayjs(new Date()).format('YYYY-MM-DD'),
 		},
 	]);
 }

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"; 
 import { LeanMoreContainer, LeanMoreLayout, MyStoryContainer, PortraitContainer, TitleContainer } from "./styles";
 
 export function About() {

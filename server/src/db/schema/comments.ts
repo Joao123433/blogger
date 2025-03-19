@@ -1,5 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
-import { pgTable, text } from 'drizzle-orm/pg-core';
+import { pgTable, text, date } from 'drizzle-orm/pg-core';
 import { posts } from './posts';
 
 export const comments = pgTable('comments', {
@@ -13,4 +13,6 @@ export const comments = pgTable('comments', {
 	idPost: text('id_post')
 		.references(() => posts.id)
 		.notNull(),
+	createdAt: date('created_at').notNull(),
+	updatedAt: date('updated_at').notNull(),
 });

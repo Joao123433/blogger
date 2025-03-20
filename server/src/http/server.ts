@@ -7,8 +7,11 @@ import {
 } from 'fastify-type-provider-zod';
 import { getPostsRouter } from './routes/getPosts';
 import { getCommentsRouter } from './routes/getComments';
-import { PostCommentsRouter } from './routes/comments/post';
+
+// CRUD COMMENT
 import { PutCommentsRouter } from './routes/comments/put';
+import { GetCommentRouter } from './routes/comments/get';
+import { PostCommentsRouter } from './routes/comments/post';
 import { DeleteCommentsRouter } from './routes/comments/delete';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -24,6 +27,7 @@ app.register(getCommentsRouter);
 
 // CRUD COMMENTS
 app.register(PostCommentsRouter);
+app.register(GetCommentRouter);
 app.register(PutCommentsRouter);
 app.register(DeleteCommentsRouter);
 

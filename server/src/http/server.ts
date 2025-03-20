@@ -13,6 +13,10 @@ import { PutCommentsRouter } from './routes/comments/put';
 import { GetCommentRouter } from './routes/comments/get';
 import { PostCommentsRouter } from './routes/comments/post';
 import { DeleteCommentsRouter } from './routes/comments/delete';
+import { GetPostRouter } from './routes/posts/get';
+import { PostPostsRouter } from './routes/posts/post';
+import { DeletePostRouter } from './routes/posts/delete';
+import { PutPostRouter } from './routes/posts/put';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -24,6 +28,12 @@ app.setSerializerCompiler(serializerCompiler);
 // ROTAS PRIMARIAS
 app.register(getPostsRouter);
 app.register(getCommentsRouter);
+
+// CRUD POSTS
+app.register(PostPostsRouter);
+app.register(GetPostRouter);
+app.register(PutPostRouter);
+app.register(DeletePostRouter);
 
 // CRUD COMMENTS
 app.register(PostCommentsRouter);

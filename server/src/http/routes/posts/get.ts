@@ -1,7 +1,8 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod';
-import { db } from '../../db';
-import { posts } from '../../db/schema';
 import z from 'zod';
+import { db } from '../../../db';
+import { posts } from '../../../db/schema';
+import { eq } from 'drizzle-orm';
 
 // VALIDADAO DA RESPOSTA
 const postsSchema = z.object({
@@ -13,12 +14,23 @@ const postsSchema = z.object({
 	createdAt: z.string(),
 });
 
-export const getPostsRouter: FastifyPluginAsyncZod = async (app) => {
+export const GetPostRouter: FastifyPluginAsyncZod = async (app) => {
 	app.get(
-		'/posts',
-		{ schema: { response: { 200: z.array(postsSchema) } } },
-		async () =>
-			await db
+		'/post',
+		{
+			schema: {
+				headers: z.object({
+					id: z.string(),
+				}),
+				response: {
+					200: postsSchema,
+				},
+			},
+		},
+		async (req, _) => {
+			const { id } = req.headers;
+
+			const [fetchPost] = await db
 				.select({
 					id: posts.id,
 					title: posts.title,
@@ -27,6 +39,10 @@ export const getPostsRouter: FastifyPluginAsyncZod = async (app) => {
 					conclusion: posts.conclusion,
 					createdAt: posts.createdAt,
 				})
-				.from(posts),
+				.from(posts)
+				.where(eq(posts.id, id));
+
+			return fetchPost;
+		},
 	);
 };

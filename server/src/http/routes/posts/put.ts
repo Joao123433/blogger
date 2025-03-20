@@ -6,11 +6,11 @@ import { eq } from 'drizzle-orm';
 import dayjs from 'dayjs';
 
 const PostSchema = z.object({
-	id: z.string(),
-	title: z.string(),
-	introduction: z.string(),
-	story: z.string(),
-	conclusion: z.string(),
+	id: z.string().nonempty(),
+	title: z.string().nonempty(),
+	introduction: z.string().nonempty(),
+	story: z.string().nonempty(),
+	conclusion: z.string().nonempty(),
 });
 
 export const PutPostRouter: FastifyPluginAsyncZod = async (app) => {

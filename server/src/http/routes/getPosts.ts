@@ -7,10 +7,10 @@ import z from 'zod';
 const postsSchema = z.object({
 	id: z.string(),
 	title: z.string(),
-	introduction: z.string(),
-	story: z.string(),
-	conclusion: z.string(),
-	createdAt: z.string(),
+	introduction: z.string().nonempty(),
+	story: z.string().nonempty(),
+	conclusion: z.string().nonempty(),
+	createdAt: z.string().nonempty(),
 });
 
 export const getPostsRouter: FastifyPluginAsyncZod = async (app) => {

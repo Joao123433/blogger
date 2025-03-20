@@ -5,10 +5,10 @@ import { comments } from '../../../db/schema';
 import dayjs from 'dayjs';
 
 const commentsSchema = z.object({
-	name: z.string(),
-	email: z.string(),
-	comment: z.string(),
-	idPost: z.string(),
+	name: z.string().nonempty(),
+	email: z.string().nonempty(),
+	comment: z.string().nonempty(),
+	idPost: z.string().nonempty(),
 });
 
 export const PostCommentsRouter: FastifyPluginAsyncZod = async (app) => {

@@ -6,12 +6,12 @@ import { eq } from 'drizzle-orm';
 
 // VALIDADAO DA RESPOSTA
 const postsSchema = z.object({
-	id: z.string(),
-	title: z.string(),
-	introduction: z.string(),
-	story: z.string(),
-	conclusion: z.string(),
-	createdAt: z.string(),
+	id: z.string().nonempty(),
+	title: z.string().nonempty(),
+	introduction: z.string().nonempty(),
+	story: z.string().nonempty(),
+	conclusion: z.string().nonempty(),
+	createdAt: z.string().nonempty(),
 });
 
 export const GetPostRouter: FastifyPluginAsyncZod = async (app) => {

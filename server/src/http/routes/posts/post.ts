@@ -5,10 +5,10 @@ import { posts } from '../../../db/schema';
 import dayjs from 'dayjs';
 
 const postsSchema = z.object({
-	title: z.string(),
-	introduction: z.string(),
-	story: z.string(),
-	conclusion: z.string(),
+	title: z.string().nonempty(),
+	introduction: z.string().nonempty(),
+	story: z.string().nonempty(),
+	conclusion: z.string().nonempty(),
 });
 
 export const PostPostsRouter: FastifyPluginAsyncZod = async (app) => {

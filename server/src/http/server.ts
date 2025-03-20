@@ -5,6 +5,8 @@ import {
 	validatorCompiler,
 	type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
+
+// MAIN ROUTES
 import { getPostsRouter } from './routes/getPosts';
 import { getCommentsRouter } from './routes/getComments';
 
@@ -13,10 +15,12 @@ import { PutCommentsRouter } from './routes/comments/put';
 import { GetCommentRouter } from './routes/comments/get';
 import { PostCommentsRouter } from './routes/comments/post';
 import { DeleteCommentsRouter } from './routes/comments/delete';
-import { GetPostRouter } from './routes/posts/get';
+
+// CRUD POST
 import { PostPostsRouter } from './routes/posts/post';
-import { DeletePostRouter } from './routes/posts/delete';
+import { GetPostRouter } from './routes/posts/get';
 import { PutPostRouter } from './routes/posts/put';
+import { DeletePostRouter } from './routes/posts/delete';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 

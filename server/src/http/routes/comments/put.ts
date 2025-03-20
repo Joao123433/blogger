@@ -6,10 +6,10 @@ import { eq } from 'drizzle-orm';
 import dayjs from 'dayjs';
 
 const commentsSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	email: z.string(),
-	comment: z.string(),
+	id: z.string().nonempty(),
+	name: z.string().nonempty(),
+	email: z.string().nonempty(),
+	comment: z.string().nonempty(),
 });
 
 export const PutCommentsRouter: FastifyPluginAsyncZod = async (app) => {

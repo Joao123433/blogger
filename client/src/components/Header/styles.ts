@@ -66,6 +66,12 @@ export const NavContainer = styled.nav`
   a.active {
     color: ${(props) => props.theme['gray-500']};
   }
+
+
+  svg {
+    border-bottom: 3px solid transparent;
+    padding-bottom: 5px;
+  }
 `;
 
 export const HamburguerContainer = styled.div`

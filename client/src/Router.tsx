@@ -4,6 +4,7 @@ import { About } from "./pages/About";
 import { DefaultLayout } from "./layout/DefaultLayout";
 import { Contact } from "./pages/Contact";
 import { News } from "./pages/News";
+import { Login } from "./pages/login";
 
 export function Router() {
   return (
@@ -13,6 +14,7 @@ export function Router() {
         <Route path="about" element={<About />}/>
         <Route path="news" element={<News />}/>
         <Route path="contact" element={<Contact />}/>
+        <Route path="login" element={<Login />}/>
       </Route>
     </Routes>
   )

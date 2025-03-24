@@ -29,7 +29,7 @@ O sistema conta com um mecanismo de autenticação baseado em JWT (JSON Web Toke
 
 ## 🛠️ Instalação e Configuração
 
-### 2️⃣ Clonar o Repositório
+### 1️⃣ Clonar o Repositório
 
 ```sh
 git clone https://github.com/Joao123433/blogger.git
@@ -37,7 +37,7 @@ cd blogger
 yarn
 ```
 
-### 5️⃣ Configurar o Frontend
+### 2️⃣ Configurar o Frontend
 
 ```sh
 cd client
@@ -47,7 +47,7 @@ yarn dev
 
 Acesse a aplicação em `http://localhost:5173`.
 
-### 6️⃣ Configurar o Backend
+### 3️⃣ Configurar o Backend
 
 ```sh
 cd server

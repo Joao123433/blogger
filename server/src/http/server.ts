@@ -25,6 +25,7 @@ import fastifyJwt from '@fastify/jwt';
 
 import { UserLoginRouter } from './routes/user/login';
 import { UserRegisterRouter } from './routes/user/register';
+import { authMiddleware } from './middleware/authMiddleware';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -37,6 +38,9 @@ app.register(fastifyJwt, {
 
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
+
+// Middleware para proteger rotas
+app.addHook('onRequest', authMiddleware);
 
 // ROTAS PRIMARIAS
 app.register(getPostsRouter);

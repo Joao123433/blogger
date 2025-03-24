@@ -21,7 +21,7 @@ export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 			const { email, password, name } = req.body;
 			const hashedPassword = await hash(password, 10);
 
-			const user = await db
+			const [user] = await db
 				.insert(users)
 				.values({
 					email,
@@ -32,7 +32,13 @@ export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 				})
 				.returning();
 
-			return user;
+			const token = app.jwt.sign({
+				id: user.id,
+				email: user.email,
+				name: user.name,
+			});
+
+			return res.send({ user, token });
 		},
 	);
 };

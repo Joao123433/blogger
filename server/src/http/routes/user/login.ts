@@ -11,7 +11,7 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 		{
 			schema: {
 				body: z.object({
-					email: z.string(),
+					email: z.string().email(),
 					password: z.string(),
 					name: z.string(),
 				}),
@@ -37,11 +37,14 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 				return res.status(401).send({ message: 'Credenciais inválidas' });
 			}
 
-			const token = app.jwt.sign({
-				id: user.id,
-				email: user.email,
-				name: user.name,
-			});
+			const token = app.jwt.sign(
+				{
+					id: user.id,
+					email: user.email,
+					name: user.name,
+				},
+				{ expiresIn: '1h' },
+			);
 
 			res.send({ token });
 		},

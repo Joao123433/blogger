@@ -12,15 +12,25 @@ export const DeleteCommentsRouter: FastifyPluginAsyncZod = async (app) => {
 				body: z.object({ id: z.string() }),
 			},
 		},
-		async (req, _) => {
+		async (req, res) => {
 			const { id } = req.body;
 
-			const deleteComment = await db
-				.delete(comments)
-				.where(eq(comments.id, id))
-				.returning();
+			try {
+				const deleteComment = await db
+					.delete(comments)
+					.where(eq(comments.id, id))
+					.returning();
 
-			return deleteComment;
+				if (deleteComment.length) {
+					return res.status(404).send({ error: 'Comment not found' });
+				}
+
+				return res
+					.status(200)
+					.send({ message: 'Comment deleted successfully' });
+			} catch (error) {
+				return res.status(500).send({ error: 'Failed to delete comment' });
+			}
 		},
 	);
 };

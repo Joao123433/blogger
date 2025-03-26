@@ -1,12 +1,19 @@
 import dayjs from 'dayjs';
 import { client, db } from '.';
-import { comments, posts } from './schema';
+import { comments, posts, users } from './schema';
 
 async function seed() {
 	await db.delete(comments);
 	await db.delete(posts);
+	await db.delete(users);
 
-	const dateFormat = dayjs().format('YYYY-MM-DD HH:mm:ss');
+	// const root = await db.insert(users).values({
+	// 	email: 'teste@teste.com',
+	// 	password: '1234',
+	// 	name: 'root',
+	// 	createdAt: dayjs(new Date()).format('YYYY-MM-DD'),
+	// 	updatedAt: dayjs(new Date()).format('YYYY-MM-DD'),
+	// });
 
 	const [post] = await db
 		.insert(posts)

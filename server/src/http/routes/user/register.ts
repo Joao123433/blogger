@@ -4,6 +4,7 @@ import z from 'zod';
 import { db } from '../../../db';
 import { users } from '../../../db/schema/users';
 import dayjs from 'dayjs';
+import { eq } from 'drizzle-orm';
 
 export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 	app.post(
@@ -20,6 +21,16 @@ export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 		async (req, res) => {
 			const { email, password, name } = req.body;
 			const hashedPassword = await hash(password, 10);
+
+			const [existingUser] = await db
+				.select()
+				.from(users)
+				.where(eq(users.email, email))
+				.limit(1);
+
+			if (existingUser) {
+				return res.status(401).send({ message: 'Usuario ja existe' });
+			}
 
 			const [user] = await db
 				.insert(users)
@@ -49,7 +60,9 @@ export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 				maxAge: 60 * 60,
 			});
 
-			return res.send({ message: 'Usuário registrado com sucesso' });
+			return res
+				.status(201)
+				.send({ message: 'Usuário registrado com sucesso' });
 		},
 	);
 };

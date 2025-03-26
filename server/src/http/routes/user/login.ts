@@ -30,7 +30,8 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 				.where(eq(users.email, email))
 				.limit(1);
 
-			const verifyPassword = await compare(password, user.password);
+			const verifyPassword =
+				user !== undefined ? await compare(password, user.password) : false;
 
 			if (!user || !verifyPassword) {
 				return res.status(401).send({ message: 'Credenciais inválidas' });
@@ -53,7 +54,7 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 				maxAge: 60 * 60,
 			});
 
-			res.send({ message: 'Login realizado com sucesso' });
+			res.status(200).send({ message: 'Login realizado com sucesso' });
 		},
 	);
 };

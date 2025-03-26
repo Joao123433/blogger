@@ -26,14 +26,26 @@ import fastifyJwt from '@fastify/jwt';
 import { UserLoginRouter } from './routes/user/login';
 import { UserRegisterRouter } from './routes/user/register';
 import { authMiddleware } from './middleware/authMiddleware';
+import fastifyCookie from '@fastify/cookie';
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
-
-app.register(fastifyCors, { origin: '*' });
 
 // JWT PLUGIN
 app.register(fastifyJwt, {
 	secret: String(process.env.JWT_SECRET),
+});
+
+// FASTIFY COOKIES
+app.register(fastifyCookie, {
+	secret: process.env.COOKIE_SECRET,
+	hook: 'onRequest',
+	parseOptions: {},
+});
+
+// CONFIG CORS
+app.register(fastifyCors, {
+	origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+	credentials: true,
 });
 
 app.setValidatorCompiler(validatorCompiler);

@@ -13,12 +13,11 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 				body: z.object({
 					email: z.string().email(),
 					password: z.string(),
-					name: z.string(),
 				}),
 			},
 		},
 		async (req, res) => {
-			const { email, password, name } = req.body;
+			const { email, password } = req.body;
 
 			const [user] = await db
 				.select({
@@ -46,7 +45,15 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 				{ expiresIn: '1h' },
 			);
 
-			res.send({ token });
+			res.setCookie('token', token, {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'strict',
+				path: '/',
+				maxAge: 60 * 60,
+			});
+
+			res.send({ message: 'Login realizado com sucesso' });
 		},
 	);
 };

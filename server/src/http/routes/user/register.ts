@@ -32,13 +32,24 @@ export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 				})
 				.returning();
 
-			const token = app.jwt.sign({
-				id: user.id,
-				email: user.email,
-				name: user.name,
+			const token = app.jwt.sign(
+				{
+					id: user.id,
+					email: user.email,
+					name: user.name,
+				},
+				{ expiresIn: '1h' },
+			);
+
+			res.setCookie('token', token, {
+				httpOnly: true,
+				secure: process.env.NODE_ENV === 'production',
+				sameSite: 'strict',
+				path: '/',
+				maxAge: 60 * 60,
 			});
 
-			return res.send({ user, token });
+			return res.send({ message: 'Usuário registrado com sucesso' });
 		},
 	);
 };

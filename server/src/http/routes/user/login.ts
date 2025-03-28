@@ -34,7 +34,7 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 				user !== undefined ? await compare(password, user.password) : false;
 
 			if (!user || !verifyPassword) {
-				return res.status(401).send({ message: 'Credenciais inválidas' });
+				return res.status(401).send({ message: 'Invalid credentials' });
 			}
 
 			const token = app.jwt.sign(
@@ -54,7 +54,7 @@ export const UserLoginRouter: FastifyPluginAsyncZod = async (app) => {
 				maxAge: 60 * 60,
 			});
 
-			res.status(200).send({ message: 'Login realizado com sucesso' });
+			res.status(200).send({ message: 'Login successful' });
 		},
 	);
 };

@@ -29,7 +29,7 @@ export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 				.limit(1);
 
 			if (existingUser) {
-				return res.status(401).send({ message: 'Usuario ja existe' });
+				return res.status(401).send({ message: 'User already exists' });
 			}
 
 			const [user] = await db
@@ -60,9 +60,7 @@ export const UserRegisterRouter: FastifyPluginAsyncZod = async (app) => {
 				maxAge: 60 * 60,
 			});
 
-			return res
-				.status(201)
-				.send({ message: 'Usuário registrado com sucesso' });
+			return res.status(201).send({ message: 'User successfully registered' });
 		},
 	);
 };

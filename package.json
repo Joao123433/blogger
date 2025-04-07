@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "@biomejs/biome": "1.9.4"
+  },
+  "dependencies": {
+    "@paralleldrive/cuid2": "^2.2.2"
   }
 }

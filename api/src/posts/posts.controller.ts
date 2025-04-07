@@ -1,12 +1,35 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { PostsService } from './posts.service';
+import { PaginationDto } from 'src/commom/dto/Pagination.dto';
+import { CreatePostDto } from './dto/create-posts.dto';
+import { UpdatePostDto } from './dto/update-post-dto';
 
 @Controller('posts')
 export class PostsController {
 	constructor(private readonly postsService: PostsService) {}
 
 	@Get()
-	findAllPosts() {
-		return this.postsService.findAll();
+	findAllPosts(@Query() pagination: PaginationDto) {
+		return this.postsService.findAll(pagination);
+	}
+
+	@Get(':id')
+	findPostById(@Param('id') id: string) {
+		return this.postsService.findById(id);
+	}
+
+	@Post()
+	CreatePost(@Body() body: CreatePostDto) {
+		return this.postsService.createOne(body)
+	}
+
+	@Patch(":id")
+	UpdatePost(@Param("id") id: string, @Body() body: UpdatePostDto) {
+		return this.postsService.updateOne(id, body)
+	}
+
+	@Delete(":id")
+	DeletePost(@Param('id') id: string) {
+		return this.postsService.deleteOne(id)
 	}
 }

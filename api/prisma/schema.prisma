@@ -15,4 +15,17 @@ model Posts {
   conclusion   String
   created_at   DateTime? @default(now())
   updated_at   DateTime? @default(now())
+
+  userId String?
+  user   Users?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Users {
+  id           String    @id
+  name         String
+  passwordHash String
+  email        String    @unique
+  created_at   DateTime  @default(now())
+  updated_at   DateTime? @default(now())
+  Posts        Posts[]
 }

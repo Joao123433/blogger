@@ -1,10 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseInterceptors } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PaginationDto } from 'src/commom/dto/Pagination.dto';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
+import { LoggerInterceptor } from 'src/commom/interceptors/logget.interceptor';
 
 @Controller('posts')
+@UseInterceptors(LoggerInterceptor)
 export class PostsController {
 	constructor(private readonly postsService: PostsService) {}
 

@@ -2,5 +2,5 @@ node_modules
 .env
 .migrations
 .vscode
-
+migrations
 docker-compose.yml

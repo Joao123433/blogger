@@ -19,6 +19,8 @@ const Pagination_dto_1 = require("../commom/dto/Pagination.dto");
 const create_posts_dto_1 = require("./dto/create-posts.dto");
 const update_post_dto_1 = require("./dto/update-post-dto");
 const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
+const exception_filter_1 = require("../commom/filters/exception-filter");
+const admin_guard_1 = require("../commom/guards/admin.guard");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {
@@ -80,6 +82,8 @@ __decorate([
 exports.PostsController = PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(logget_interceptor_1.LoggerInterceptor),
+    (0, common_1.UseFilters)(exception_filter_1.ApiExceptionFilter),
+    (0, common_1.UseGuards)(admin_guard_1.AuthGuard),
     __metadata("design:paramtypes", [posts_service_1.PostsService])
 ], PostsController);
 //# sourceMappingURL=posts.controller.js.map

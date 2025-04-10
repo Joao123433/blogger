@@ -6,41 +6,41 @@ export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);
     findAllPosts(pagination: PaginationDto): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         updated_at: Date | null;
         userId: string | null;
     }[]>;
     findPostById(id: string): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         updated_at: Date | null;
         userId: string | null;
     }>;
     CreatePost(body: CreatePostDto): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         updated_at: Date | null;
         userId: string | null;
     }>;
     UpdatePost(id: string, body: UpdatePostDto): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         updated_at: Date | null;
         userId: string | null;

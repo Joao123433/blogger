@@ -13,10 +13,13 @@ exports.UsersService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const cuid2_1 = require("@paralleldrive/cuid2");
+const hashing_service_1 = require("../auth/hash/hashing.service");
 let UsersService = class UsersService {
     prisma;
-    constructor(prisma) {
+    hashingService;
+    constructor(prisma, hashingService) {
         this.prisma = prisma;
+        this.hashingService = hashingService;
     }
     async findOne(id) {
         const findUser = await this.prisma.users.findFirst({
@@ -37,12 +40,13 @@ let UsersService = class UsersService {
     }
     async createOne(body) {
         try {
+            const passwordHash = await this.hashingService.hash(body.passwordHash);
             const user = await this.prisma.users.create({
                 data: {
                     id: (0, cuid2_1.createId)(),
                     name: body.name,
                     email: body.email,
-                    passwordHash: body.passwordHash
+                    passwordHash: passwordHash
                 },
                 select: {
                     id: true,
@@ -112,6 +116,7 @@ let UsersService = class UsersService {
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService,
+        hashing_service_1.HashingServiceProtocol])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

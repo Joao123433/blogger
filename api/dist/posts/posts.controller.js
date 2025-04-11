@@ -20,13 +20,15 @@ const create_posts_dto_1 = require("./dto/create-posts.dto");
 const update_post_dto_1 = require("./dto/update-post-dto");
 const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
 const exception_filter_1 = require("../commom/filters/exception-filter");
-const admin_guard_1 = require("../commom/guards/admin.guard");
+const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
+const auth_constants_1 = require("../auth/commom/auth.constants");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {
         this.postsService = postsService;
     }
-    findAllPosts(pagination) {
+    findAllPosts(pagination, req) {
+        console.log(req[auth_constants_1.AUTH_TOKEN_PAYLOAD]);
         return this.postsService.findAll(pagination);
     }
     findPostById(id) {
@@ -44,10 +46,12 @@ let PostsController = class PostsController {
 };
 exports.PostsController = PostsController;
 __decorate([
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Pagination_dto_1.PaginationDto]),
+    __metadata("design:paramtypes", [Pagination_dto_1.PaginationDto, Object]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "findAllPosts", null);
 __decorate([
@@ -83,7 +87,6 @@ exports.PostsController = PostsController = __decorate([
     (0, common_1.Controller)('posts'),
     (0, common_1.UseInterceptors)(logget_interceptor_1.LoggerInterceptor),
     (0, common_1.UseFilters)(exception_filter_1.ApiExceptionFilter),
-    (0, common_1.UseGuards)(admin_guard_1.AuthGuard),
     __metadata("design:paramtypes", [posts_service_1.PostsService])
 ], PostsController);
 //# sourceMappingURL=posts.controller.js.map

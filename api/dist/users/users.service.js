@@ -71,13 +71,20 @@ let UsersService = class UsersService {
             });
             if (!findUser)
                 throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+            const dataUser = {
+                name: body?.name ? body.name : findUser.name
+            };
+            if (body?.passwordHash) {
+                const passwordHash = await this.hashingService.hash(body?.passwordHash);
+                dataUser['passwordHash'] = passwordHash;
+            }
             const user = await this.prisma.users.update({
                 where: {
                     id: id
                 },
                 data: {
-                    name: body?.name ? body.name : findUser.name,
-                    passwordHash: body?.passwordHash ? body.passwordHash : findUser.passwordHash,
+                    name: dataUser.name,
+                    passwordHash: dataUser?.passwordHash ? dataUser.passwordHash : findUser.passwordHash,
                     updated_at: new Date()
                 },
                 select: {

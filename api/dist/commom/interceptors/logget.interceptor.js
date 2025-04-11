@@ -12,9 +12,8 @@ const operators_1 = require("rxjs/operators");
 let LoggerInterceptor = class LoggerInterceptor {
     intercept(context, next) {
         const now = Date.now();
-        console.log("Before...");
         return next.handle().pipe((0, operators_1.tap)(() => {
-            console.log(`After... ${Date.now() - now}ms`);
+            console.log(`${Date.now() - now}ms`);
         }));
     }
 };

@@ -6,26 +6,26 @@ export declare class UsersController {
     constructor(userService: UsersService);
     findOneUser(id: string): Promise<{
         id: string;
-        name: string;
-        email: string;
         created_at: Date;
+        name: string;
         Posts: {
-            id: string;
-            created_at: Date | null;
-            updated_at: Date | null;
             title: string;
             introduction: string;
             story: string;
             conclusion: string;
+            id: string;
+            created_at: Date | null;
+            updated_at: Date | null;
             userId: string | null;
         }[];
+        email: string;
     }>;
     createUser(body: CreateUserDto): Promise<{
         id: string;
-        name: string;
-        email: string;
         created_at: Date;
         updated_at: Date | null;
+        name: string;
+        email: string;
     }>;
     updateUser(id: string, body: UpdateUserDto): Promise<{
         id: string;

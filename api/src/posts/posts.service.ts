@@ -4,6 +4,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PaginationDto } from 'src/commom/dto/Pagination.dto';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
+import { PayloadDto } from 'src/auth/dto/payload.dto';
 
 @Injectable()
 export class PostsService {
@@ -35,7 +36,7 @@ export class PostsService {
 		return post;
 	}
 
-	async createOne(body: CreatePostDto) {
+	async createOne(body: CreatePostDto, payloadToken: PayloadDto) {
 		const newPost = await this.prisma.posts.create({
 			data: {
 				id: createId(),
@@ -43,6 +44,7 @@ export class PostsService {
 				introduction: body.introduction,
 				story: body.story,
 				conclusion: body.conclusion,
+				userId: payloadToken.sub
 			},
 		});
 

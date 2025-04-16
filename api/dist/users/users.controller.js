@@ -17,6 +17,9 @@ const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
+const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
+const token_payload_param_1 = require("../auth/params/token-payload.param");
+const payload_dto_1 = require("../auth/dto/payload.dto");
 let UsersController = class UsersController {
     userService;
     constructor(userService) {
@@ -28,11 +31,11 @@ let UsersController = class UsersController {
     createUser(body) {
         return this.userService.createOne(body);
     }
-    updateUser(id, body) {
-        return this.userService.updateOne(id, body);
+    updateUser(id, body, payloadToken) {
+        return this.userService.updateOne(id, body, payloadToken);
     }
-    deleteUser(id) {
-        return this.userService.deleteOne(id);
+    deleteUser(id, payloadToken) {
+        return this.userService.deleteOne(id, payloadToken);
     }
 };
 exports.UsersController = UsersController;
@@ -51,18 +54,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "createUser", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto]),
+    __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUserDto, payload_dto_1.PayloadDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "updateUser", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)("id")),
+    __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, payload_dto_1.PayloadDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "deleteUser", null);
 exports.UsersController = UsersController = __decorate([

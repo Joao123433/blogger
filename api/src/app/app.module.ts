@@ -5,6 +5,7 @@ import { PostsModule } from 'src/posts/posts.module';
 import { UsersModule } from 'src/users/users.module';
 import { LoggerMiddleware } from 'src/commom/middlewares/logger.middleware';
 import { AuthModule } from 'src/auth/auth.module';
+import { AuthMiddleware } from 'src/commom/middlewares/auth.middleware';
 
 @Module({
 	imports: [PostsModule, UsersModule, AuthModule],
@@ -17,5 +18,9 @@ export class AppModule implements NestModule {
 			path: "*",
 			method: RequestMethod.ALL
 		})
+		// consumer.apply(AuthMiddleware).forRoutes({
+		// 	path: "*",
+		// 	method: RequestMethod.ALL
+		// })
 	}
 }

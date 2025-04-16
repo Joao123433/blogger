@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { PaginationDto } from 'src/commom/dto/Pagination.dto';
 import { CreatePostDto } from './dto/create-posts.dto';
@@ -6,8 +6,8 @@ import { UpdatePostDto } from './dto/update-post-dto';
 import { LoggerInterceptor } from 'src/commom/interceptors/logget.interceptor';
 import { ApiExceptionFilter } from 'src/commom/filters/exception-filter';
 import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
-import { FastifyRequest } from 'fastify';
-import { AUTH_TOKEN_PAYLOAD } from 'src/auth/commom/auth.constants';
+import { TokenPayloadParam } from 'src/auth/params/token-payload.param';
+import { PayloadDto } from 'src/auth/dto/payload.dto';
 
 @Controller('posts')
 @UseInterceptors(LoggerInterceptor)
@@ -15,11 +15,8 @@ import { AUTH_TOKEN_PAYLOAD } from 'src/auth/commom/auth.constants';
 export class PostsController {
 	constructor(private readonly postsService: PostsService) {}
 
-	@UseGuards(AuthTokenGuard)
 	@Get()
-	findAllPosts(@Query() pagination: PaginationDto, @Req() req: FastifyRequest) {
-		console.log(req[AUTH_TOKEN_PAYLOAD])
-
+	findAllPosts(@Query() pagination: PaginationDto) {
 		return this.postsService.findAll(pagination);
 	}
 
@@ -28,9 +25,10 @@ export class PostsController {
 		return this.postsService.findById(id);
 	}
 
+	@UseGuards(AuthTokenGuard)
 	@Post()
-	CreatePost(@Body() body: CreatePostDto) {
-		return this.postsService.createOne(body)
+	CreatePost(@Body() body: CreatePostDto, @TokenPayloadParam() payloadToken: PayloadDto) {
+		return this.postsService.createOne(body, payloadToken)
 	}
 
 	@Patch(":id")

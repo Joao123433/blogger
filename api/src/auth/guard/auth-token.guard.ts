@@ -18,9 +18,7 @@ export class AuthTokenGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = this.extractToken(request);
 
-    if (!token) {
-      throw new HttpException("Token not found.", HttpStatus.UNAUTHORIZED);
-    }
+    if (!token) throw new HttpException("Token not found.", HttpStatus.UNAUTHORIZED);
 
     try {
       const payload = await this.jwtService.verify(token, this.jwtConfiguraton);
@@ -29,7 +27,7 @@ export class AuthTokenGuard implements CanActivate {
       throw new HttpException("Invalid or expired token.", HttpStatus.UNAUTHORIZED);
     }
 
-    return true;
+    return true
   }
 
   extractToken(request: FastifyRequest) {

@@ -5,6 +5,7 @@ import { createId } from '@paralleldrive/cuid2';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { HashingServiceProtocol } from 'src/auth/hash/hashing.service';
+import { PayloadDto } from 'src/auth/dto/payload.dto';
 
 @Injectable()
 export class UsersService {
@@ -58,7 +59,7 @@ export class UsersService {
     }
   }
 
-  async updateOne(id: string, body: UpdateUserDto) {
+  async updateOne(id: string, body: UpdateUserDto, payloadToken: PayloadDto) {
     try {
       const findUser = await this.prisma.users.findFirst({
         where:{
@@ -67,6 +68,8 @@ export class UsersService {
       })
   
       if(!findUser) throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+
+      if(findUser.id !== payloadToken.sub) throw new HttpException("Access denied", HttpStatus.NOT_FOUND)
 
       const dataUser: {name?: string, passwordHash?: string} = {
         name: body?.name ? body.name : findUser.name
@@ -99,7 +102,7 @@ export class UsersService {
     }
   }
 
-  async deleteOne(id: string) {
+  async deleteOne(id: string, payloadToken: PayloadDto) {
     try {
       const findUser = await this.prisma.users.findFirst({
         where:{
@@ -108,6 +111,8 @@ export class UsersService {
       })
   
       if(!findUser) throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+
+      if(findUser.id !== payloadToken.sub) throw new HttpException("Access denied", HttpStatus.NOT_FOUND)
       
       await this.prisma.users.delete({
         where: {

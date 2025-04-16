@@ -39,7 +39,7 @@ let PostsService = class PostsService {
             throw new common_1.HttpException('Post not found', common_1.HttpStatus.NOT_FOUND);
         return post;
     }
-    async createOne(body) {
+    async createOne(body, payloadToken) {
         const newPost = await this.prisma.posts.create({
             data: {
                 id: (0, cuid2_1.createId)(),
@@ -47,6 +47,7 @@ let PostsService = class PostsService {
                 introduction: body.introduction,
                 story: body.story,
                 conclusion: body.conclusion,
+                userId: payloadToken.sub
             },
         });
         return newPost;

@@ -21,21 +21,21 @@ const update_post_dto_1 = require("./dto/update-post-dto");
 const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
 const exception_filter_1 = require("../commom/filters/exception-filter");
 const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
-const auth_constants_1 = require("../auth/commom/auth.constants");
+const token_payload_param_1 = require("../auth/params/token-payload.param");
+const payload_dto_1 = require("../auth/dto/payload.dto");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {
         this.postsService = postsService;
     }
-    findAllPosts(pagination, req) {
-        console.log(req[auth_constants_1.AUTH_TOKEN_PAYLOAD]);
+    findAllPosts(pagination) {
         return this.postsService.findAll(pagination);
     }
     findPostById(id) {
         return this.postsService.findById(id);
     }
-    CreatePost(body) {
-        return this.postsService.createOne(body);
+    CreatePost(body, payloadToken) {
+        return this.postsService.createOne(body, payloadToken);
     }
     UpdatePost(id, body) {
         return this.postsService.updateOne(id, body);
@@ -46,12 +46,10 @@ let PostsController = class PostsController {
 };
 exports.PostsController = PostsController;
 __decorate([
-    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Get)(),
     __param(0, (0, common_1.Query)()),
-    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Pagination_dto_1.PaginationDto, Object]),
+    __metadata("design:paramtypes", [Pagination_dto_1.PaginationDto]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "findAllPosts", null);
 __decorate([
@@ -62,10 +60,12 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "findPostById", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_posts_dto_1.CreatePostDto]),
+    __metadata("design:paramtypes", [create_posts_dto_1.CreatePostDto, payload_dto_1.PayloadDto]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "CreatePost", null);
 __decorate([

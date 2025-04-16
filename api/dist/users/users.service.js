@@ -62,7 +62,7 @@ let UsersService = class UsersService {
             throw new common_1.HttpException("Error creating user", common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async updateOne(id, body) {
+    async updateOne(id, body, payloadToken) {
         try {
             const findUser = await this.prisma.users.findFirst({
                 where: {
@@ -71,6 +71,8 @@ let UsersService = class UsersService {
             });
             if (!findUser)
                 throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+            if (findUser.id !== payloadToken.sub)
+                throw new common_1.HttpException("Access denied", common_1.HttpStatus.NOT_FOUND);
             const dataUser = {
                 name: body?.name ? body.name : findUser.name
             };
@@ -99,7 +101,7 @@ let UsersService = class UsersService {
             throw new common_1.HttpException("Error updating user", common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async deleteOne(id) {
+    async deleteOne(id, payloadToken) {
         try {
             const findUser = await this.prisma.users.findFirst({
                 where: {
@@ -108,6 +110,8 @@ let UsersService = class UsersService {
             });
             if (!findUser)
                 throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+            if (findUser.id !== payloadToken.sub)
+                throw new common_1.HttpException("Access denied", common_1.HttpStatus.NOT_FOUND);
             await this.prisma.users.delete({
                 where: {
                     id: id

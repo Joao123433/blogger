@@ -2,11 +2,11 @@ import { PostsService } from './posts.service';
 import { PaginationDto } from 'src/commom/dto/Pagination.dto';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
-import { FastifyRequest } from 'fastify';
+import { PayloadDto } from 'src/auth/dto/payload.dto';
 export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);
-    findAllPosts(pagination: PaginationDto, req: FastifyRequest): Promise<{
+    findAllPosts(pagination: PaginationDto): Promise<{
         id: string;
         title: string;
         introduction: string;
@@ -26,7 +26,7 @@ export declare class PostsController {
         updated_at: Date | null;
         userId: string | null;
     }>;
-    CreatePost(body: CreatePostDto): Promise<{
+    CreatePost(body: CreatePostDto, payloadToken: PayloadDto): Promise<{
         id: string;
         title: string;
         introduction: string;

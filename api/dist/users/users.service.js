@@ -21,22 +21,27 @@ let UsersService = class UsersService {
         this.prisma = prisma;
         this.hashingService = hashingService;
     }
-    async findOne(id) {
-        const findUser = await this.prisma.users.findFirst({
-            where: {
-                id: id
-            },
-            select: {
-                id: true,
-                name: true,
-                email: true,
-                created_at: true,
-                Posts: true
-            }
-        });
-        if (!findUser)
+    async findOne(payloadToken) {
+        try {
+            const findUser = await this.prisma.users.findFirst({
+                where: {
+                    id: payloadToken.sub
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    created_at: true,
+                    Posts: true
+                }
+            });
+            if (!findUser)
+                throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+            return findUser;
+        }
+        catch (error) {
             throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
-        return findUser;
+        }
     }
     async createOne(body) {
         try {

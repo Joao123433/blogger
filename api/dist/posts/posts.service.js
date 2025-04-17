@@ -21,6 +21,16 @@ let PostsService = class PostsService {
     async findAll(pagination) {
         const { limit = 6, offset = 0 } = pagination;
         const posts = await this.prisma.posts.findMany({
+            select: {
+                id: true,
+                title: true,
+                introduction: true,
+                story: true,
+                conclusion: true,
+                created_at: true,
+                userId: true,
+                Comments: true
+            },
             take: limit,
             skip: offset,
             orderBy: {
@@ -30,29 +40,59 @@ let PostsService = class PostsService {
         return posts;
     }
     async findById(id) {
-        const post = await this.prisma.posts.findFirst({
-            where: {
-                id: id,
-            },
-        });
-        if (!post)
-            throw new common_1.HttpException('Post not found', common_1.HttpStatus.NOT_FOUND);
-        return post;
+        try {
+            const post = await this.prisma.posts.findFirst({
+                select: {
+                    id: true,
+                    title: true,
+                    introduction: true,
+                    story: true,
+                    conclusion: true,
+                    created_at: true,
+                    userId: true,
+                    Comments: true
+                },
+                where: {
+                    id: id,
+                },
+            });
+            if (!post)
+                throw new common_1.HttpException('Post not found', common_1.HttpStatus.NOT_FOUND);
+            return post;
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error retrieving post', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
     async createOne(body, payloadToken) {
-        const newPost = await this.prisma.posts.create({
-            data: {
-                id: (0, cuid2_1.createId)(),
-                title: body.title,
-                introduction: body.introduction,
-                story: body.story,
-                conclusion: body.conclusion,
-                userId: payloadToken.sub
-            },
-        });
-        return newPost;
+        try {
+            const newPost = await this.prisma.posts.create({
+                data: {
+                    id: (0, cuid2_1.createId)(),
+                    title: body.title,
+                    introduction: body.introduction,
+                    story: body.story,
+                    conclusion: body.conclusion,
+                    userId: payloadToken.sub
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    introduction: true,
+                    story: true,
+                    conclusion: true,
+                    created_at: true,
+                    userId: true,
+                    Comments: true
+                }
+            });
+            return newPost;
+        }
+        catch (error) {
+            throw new common_1.HttpException('Error creating post', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-    async updateOne(id, body) {
+    async updateOne(id, body, payloadToken) {
         try {
             const findPost = await this.prisma.posts.findFirst({
                 where: {
@@ -61,11 +101,27 @@ let PostsService = class PostsService {
             });
             if (!findPost)
                 throw new common_1.HttpException('Post not found', common_1.HttpStatus.NOT_FOUND);
+            if (findPost.userId !== payloadToken.sub)
+                throw new common_1.HttpException("Access denied", common_1.HttpStatus.NOT_FOUND);
             const post = await this.prisma.posts.update({
                 where: {
                     id: findPost.id,
                 },
-                data: body,
+                data: {
+                    ...body,
+                    updated_at: new Date()
+                },
+                select: {
+                    id: true,
+                    title: true,
+                    introduction: true,
+                    story: true,
+                    conclusion: true,
+                    created_at: true,
+                    updated_at: true,
+                    userId: true,
+                    Comments: true
+                },
             });
             return post;
         }
@@ -73,7 +129,7 @@ let PostsService = class PostsService {
             throw new common_1.HttpException('Error updating post', common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async deleteOne(id) {
+    async deleteOne(id, payloadToken) {
         try {
             const findPost = await this.prisma.posts.findFirst({
                 where: {
@@ -82,6 +138,8 @@ let PostsService = class PostsService {
             });
             if (!findPost)
                 throw new common_1.HttpException('Post not found', common_1.HttpStatus.NOT_FOUND);
+            if (findPost.userId !== payloadToken.sub)
+                throw new common_1.HttpException("Access denied", common_1.HttpStatus.NOT_FOUND);
             await this.prisma.posts.delete({
                 where: {
                     id: id,

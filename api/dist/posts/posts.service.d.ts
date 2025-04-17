@@ -13,8 +13,15 @@ export declare class PostsService {
         story: string;
         conclusion: string;
         created_at: Date | null;
-        updated_at: Date | null;
         userId: string | null;
+        Comments: {
+            id: string;
+            created_at: Date;
+            updated_at: Date | null;
+            userId: string | null;
+            comment: string;
+            postId: string | null;
+        }[];
     }[]>;
     findById(id: string): Promise<{
         id: string;
@@ -23,8 +30,15 @@ export declare class PostsService {
         story: string;
         conclusion: string;
         created_at: Date | null;
-        updated_at: Date | null;
         userId: string | null;
+        Comments: {
+            id: string;
+            created_at: Date;
+            updated_at: Date | null;
+            userId: string | null;
+            comment: string;
+            postId: string | null;
+        }[];
     }>;
     createOne(body: CreatePostDto, payloadToken: PayloadDto): Promise<{
         id: string;
@@ -33,10 +47,17 @@ export declare class PostsService {
         story: string;
         conclusion: string;
         created_at: Date | null;
-        updated_at: Date | null;
         userId: string | null;
+        Comments: {
+            id: string;
+            created_at: Date;
+            updated_at: Date | null;
+            userId: string | null;
+            comment: string;
+            postId: string | null;
+        }[];
     }>;
-    updateOne(id: string, body: UpdatePostDto): Promise<{
+    updateOne(id: string, body: UpdatePostDto, payloadToken: PayloadDto): Promise<{
         id: string;
         title: string;
         introduction: string;
@@ -45,8 +66,16 @@ export declare class PostsService {
         created_at: Date | null;
         updated_at: Date | null;
         userId: string | null;
+        Comments: {
+            id: string;
+            created_at: Date;
+            updated_at: Date | null;
+            userId: string | null;
+            comment: string;
+            postId: string | null;
+        }[];
     }>;
-    deleteOne(id: string): Promise<{
+    deleteOne(id: string, payloadToken: PayloadDto): Promise<{
         message: string;
     }>;
 }

@@ -5,7 +5,7 @@ import { PayloadDto } from 'src/auth/dto/payload.dto';
 export declare class UsersController {
     private readonly userService;
     constructor(userService: UsersService);
-    findOneUser(id: string): Promise<{
+    findOneUser(payloadToken: PayloadDto): Promise<{
         id: string;
         name: string;
         email: string;

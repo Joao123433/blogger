@@ -25,8 +25,8 @@ let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
     }
-    findOneUser(id) {
-        return this.userService.findOne(id);
+    findOneUser(payloadToken) {
+        return this.userService.findOne(payloadToken);
     }
     createUser(body) {
         return this.userService.createOne(body);
@@ -40,10 +40,11 @@ let UsersController = class UsersController {
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.Get)(":id"),
-    __param(0, (0, common_1.Param)("id")),
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, common_1.Get)(),
+    __param(0, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [payload_dto_1.PayloadDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "findOneUser", null);
 __decorate([

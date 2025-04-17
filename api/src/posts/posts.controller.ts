@@ -31,13 +31,15 @@ export class PostsController {
 		return this.postsService.createOne(body, payloadToken)
 	}
 
+	@UseGuards(AuthTokenGuard)
 	@Patch(":id")
-	UpdatePost(@Param("id") id: string, @Body() body: UpdatePostDto) {
-		return this.postsService.updateOne(id, body)
+	UpdatePost(@Param("id") id: string, @Body() body: UpdatePostDto, @TokenPayloadParam() payloadToken: PayloadDto) {
+		return this.postsService.updateOne(id, body, payloadToken)
 	}
 
+	@UseGuards(AuthTokenGuard)
 	@Delete(":id")
-	DeletePost(@Param('id') id: string) {
-		return this.postsService.deleteOne(id)
+	DeletePost(@Param('id') id: string, @TokenPayloadParam() payloadToken: PayloadDto) {
+		return this.postsService.deleteOne(id, payloadToken)
 	}
 }

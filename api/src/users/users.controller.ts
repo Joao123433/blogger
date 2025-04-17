@@ -10,9 +10,10 @@ import { PayloadDto } from 'src/auth/dto/payload.dto';
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
-  @Get(":id")
-  findOneUser(@Param("id") id: string) {
-    return this.userService.findOne(id)
+  @UseGuards(AuthTokenGuard)
+  @Get()
+  findOneUser(@TokenPayloadParam() payloadToken: PayloadDto) {
+    return this.userService.findOne(payloadToken)
   }
 
   @Post()

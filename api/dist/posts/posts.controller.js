@@ -37,11 +37,11 @@ let PostsController = class PostsController {
     CreatePost(body, payloadToken) {
         return this.postsService.createOne(body, payloadToken);
     }
-    UpdatePost(id, body) {
-        return this.postsService.updateOne(id, body);
+    UpdatePost(id, body, payloadToken) {
+        return this.postsService.updateOne(id, body, payloadToken);
     }
-    DeletePost(id) {
-        return this.postsService.deleteOne(id);
+    DeletePost(id, payloadToken) {
+        return this.postsService.deleteOne(id, payloadToken);
     }
 };
 exports.PostsController = PostsController;
@@ -69,18 +69,22 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "CreatePost", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Patch)(":id"),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, update_post_dto_1.UpdatePostDto]),
+    __metadata("design:paramtypes", [String, update_post_dto_1.UpdatePostDto, payload_dto_1.PayloadDto]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "UpdatePost", null);
 __decorate([
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Delete)(":id"),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, payload_dto_1.PayloadDto]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "DeletePost", null);
 exports.PostsController = PostsController = __decorate([

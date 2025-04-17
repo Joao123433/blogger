@@ -14,6 +14,7 @@ const posts_module_1 = require("../posts/posts.module");
 const users_module_1 = require("../users/users.module");
 const logger_middleware_1 = require("../commom/middlewares/logger.middleware");
 const auth_module_1 = require("../auth/auth.module");
+const comments_module_1 = require("../comments/comments.module");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes({
@@ -25,7 +26,7 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [posts_module_1.PostsModule, users_module_1.UsersModule, auth_module_1.AuthModule],
+        imports: [posts_module_1.PostsModule, users_module_1.UsersModule, auth_module_1.AuthModule, comments_module_1.CommentsModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

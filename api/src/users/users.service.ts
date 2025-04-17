@@ -3,7 +3,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { createId } from '@paralleldrive/cuid2';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthService } from 'src/auth/auth.service';
 import { HashingServiceProtocol } from 'src/auth/hash/hashing.service';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
 
@@ -14,23 +13,28 @@ export class UsersService {
     private hashingService: HashingServiceProtocol
   ) {}
 
-  async findOne(id: string) {
-    const findUser = await this.prisma.users.findFirst({
-      where:{
-        id: id
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        created_at: true,
-        Posts: true
-      }
-    })
-
-    if(!findUser) throw new HttpException("User not found", HttpStatus.NOT_FOUND)
-
-    return findUser;
+  async findOne(payloadToken: PayloadDto) {
+    try {
+      const findUser = await this.prisma.users.findFirst({
+        where:{
+          id: payloadToken.sub
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          created_at: true,
+          Posts: true
+        }
+      })
+  
+      if(!findUser) throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+  
+      return findUser;  
+    } catch (error) {
+      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+    }
+    
   }
 
   async createOne(body: CreateUserDto) {

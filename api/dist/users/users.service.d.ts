@@ -7,7 +7,7 @@ export declare class UsersService {
     private prisma;
     private hashingService;
     constructor(prisma: PrismaService, hashingService: HashingServiceProtocol);
-    findOne(id: string): Promise<{
+    findOne(payloadToken: PayloadDto): Promise<{
         id: string;
         name: string;
         email: string;

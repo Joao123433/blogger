@@ -14,6 +14,16 @@ export class PostsService {
 		const { limit = 6, offset = 0 } = pagination;
 
 		const posts = await this.prisma.posts.findMany({
+			select: {
+				id: true,
+				title: true,
+				introduction: true,
+				story: true,
+				conclusion: true,
+				created_at: true,
+				userId: true,
+				Comments: true
+			},
 			take: limit,
 			skip: offset,
 			orderBy: {
@@ -25,33 +35,61 @@ export class PostsService {
 	}
 
 	async findById(id: string) {
-		const post = await this.prisma.posts.findFirst({
-			where: {
-				id: id,
-			},
-		});
-
-		if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
-
-		return post;
+		try {
+			const post = await this.prisma.posts.findFirst({
+				select: {
+					id: true,
+					title: true,
+					introduction: true,
+					story: true,
+					conclusion: true,
+					created_at: true,
+					userId: true,
+					Comments: true
+				},
+				where: {
+					id: id,
+				},
+			});
+	
+			if (!post) throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+	
+			return post;
+		} catch (error) {
+			throw new HttpException('Error retrieving post', HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	async createOne(body: CreatePostDto, payloadToken: PayloadDto) {
-		const newPost = await this.prisma.posts.create({
-			data: {
-				id: createId(),
-				title: body.title,
-				introduction: body.introduction,
-				story: body.story,
-				conclusion: body.conclusion,
-				userId: payloadToken.sub
-			},
-		});
-
-		return newPost;
+		try {
+			const newPost = await this.prisma.posts.create({
+				data: {
+					id: createId(),
+					title: body.title,
+					introduction: body.introduction,
+					story: body.story,
+					conclusion: body.conclusion,
+					userId: payloadToken.sub
+				},
+				select: {
+					id: true,
+					title: true,
+					introduction: true,
+					story: true,
+					conclusion: true,
+					created_at: true,
+					userId: true,
+					Comments: true
+				}
+			});
+	
+			return newPost;
+		} catch (error) {
+			throw new HttpException('Error creating post', HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
-	async updateOne(id: string, body: UpdatePostDto) {
+	async updateOne(id: string, body: UpdatePostDto, payloadToken: PayloadDto) {
 		try {
 			const findPost = await this.prisma.posts.findFirst({
 				where: {
@@ -62,11 +100,27 @@ export class PostsService {
 			if (!findPost)
 				throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
 
+			if(findPost.userId !== payloadToken.sub) throw new HttpException("Access denied", HttpStatus.NOT_FOUND)
+
 			const post = await this.prisma.posts.update({
 				where: {
 					id: findPost.id,
 				},
-				data: body,
+				data: {
+					...body,
+					updated_at: new Date()
+				},
+				select: {
+					id: true,
+					title: true,
+					introduction: true,
+					story: true,
+					conclusion: true,
+					created_at: true,
+					updated_at: true,
+					userId: true,
+					Comments: true
+				},
 			});
 
 			return post;
@@ -75,7 +129,7 @@ export class PostsService {
 		}
 	}
 
-	async deleteOne(id: string) {
+	async deleteOne(id: string, payloadToken: PayloadDto) {
 		try {
 			const findPost = await this.prisma.posts.findFirst({
 				where: {
@@ -85,6 +139,8 @@ export class PostsService {
 
 			if (!findPost)
 				throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+
+			if(findPost.userId !== payloadToken.sub) throw new HttpException("Access denied", HttpStatus.NOT_FOUND)
 
 			await this.prisma.posts.delete({
 				where: {

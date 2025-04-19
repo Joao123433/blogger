@@ -5,11 +5,15 @@ import { PostsModule } from 'src/posts/posts.module';
 import { UsersModule } from 'src/users/users.module';
 import { LoggerMiddleware } from 'src/commom/middlewares/logger.middleware';
 import { AuthModule } from 'src/auth/auth.module';
-import { AuthMiddleware } from 'src/commom/middlewares/auth.middleware';
 import { CommentsModule } from 'src/comments/comments.module';
 
 @Module({
-	imports: [PostsModule, UsersModule, AuthModule, CommentsModule],
+	imports: [
+		PostsModule, 
+		UsersModule, 
+		AuthModule, 
+		CommentsModule,
+	],
 	controllers: [AppController],
 	providers: [AppService],
 })

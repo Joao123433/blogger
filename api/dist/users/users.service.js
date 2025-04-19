@@ -32,7 +32,9 @@ let UsersService = class UsersService {
                     name: true,
                     email: true,
                     created_at: true,
-                    Posts: true
+                    updated_at: true,
+                    Posts: true,
+                    Comments: true
                 }
             });
             if (!findUser)

@@ -7,11 +7,11 @@ export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);
     findAllPosts(pagination: PaginationDto): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         userId: string | null;
         Comments: {
@@ -19,16 +19,16 @@ export declare class PostsController {
             created_at: Date;
             updated_at: Date | null;
             userId: string | null;
-            comment: string;
             postId: string | null;
+            comment: string;
         }[];
     }[]>;
     findPostById(id: string): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         userId: string | null;
         Comments: {
@@ -36,16 +36,16 @@ export declare class PostsController {
             created_at: Date;
             updated_at: Date | null;
             userId: string | null;
-            comment: string;
             postId: string | null;
+            comment: string;
         }[];
     }>;
     CreatePost(body: CreatePostDto, payloadToken: PayloadDto): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         userId: string | null;
         Comments: {
@@ -53,16 +53,16 @@ export declare class PostsController {
             created_at: Date;
             updated_at: Date | null;
             userId: string | null;
-            comment: string;
             postId: string | null;
+            comment: string;
         }[];
     }>;
     UpdatePost(id: string, body: UpdatePostDto, payloadToken: PayloadDto): Promise<{
-        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
+        id: string;
         created_at: Date | null;
         updated_at: Date | null;
         userId: string | null;
@@ -71,8 +71,8 @@ export declare class PostsController {
             created_at: Date;
             updated_at: Date | null;
             userId: string | null;
-            comment: string;
             postId: string | null;
+            comment: string;
         }[];
     }>;
     DeletePost(id: string, payloadToken: PayloadDto): Promise<{

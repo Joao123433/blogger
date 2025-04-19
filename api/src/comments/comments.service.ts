@@ -9,6 +9,16 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 export class CommentsService {
   constructor(private prisma: PrismaService) {}
 
+  async findComments(postId: string) {
+    const comments = await this.prisma.comments.findMany({
+      where: {
+        postId: postId,
+      },
+    });
+
+    return comments;
+  }
+
   async createOne(body: CreateCommentDto, payloadToken: PayloadDto) {
     try {
       const comment = await this.prisma.comments.create({

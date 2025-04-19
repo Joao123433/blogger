@@ -12,6 +12,7 @@ export declare class UsersService {
         name: string;
         email: string;
         created_at: Date;
+        updated_at: Date | null;
         Posts: {
             id: string;
             created_at: Date | null;
@@ -21,6 +22,14 @@ export declare class UsersService {
             story: string;
             conclusion: string;
             userId: string | null;
+        }[];
+        Comments: {
+            id: string;
+            created_at: Date;
+            updated_at: Date | null;
+            userId: string | null;
+            comment: string;
+            postId: string | null;
         }[];
     }>;
     createOne(body: CreateUserDto): Promise<{

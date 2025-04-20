@@ -39,6 +39,7 @@ model Users {
   name         String
   passwordHash String
   email        String     @unique
+  avatar       String?
   created_at   DateTime   @default(now())
   updated_at   DateTime?  @default(now())
   Posts        Posts[]

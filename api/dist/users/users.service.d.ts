@@ -3,6 +3,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { HashingServiceProtocol } from 'src/auth/hash/hashing.service';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { FastifyRequest } from 'fastify';
+import { MultipartFile } from '@fastify/multipart';
 export declare class UsersService {
     private prisma;
     private hashingService;
@@ -11,6 +13,7 @@ export declare class UsersService {
         id: string;
         name: string;
         email: string;
+        avatar: string | null;
         created_at: Date;
         updated_at: Date | null;
         Posts: {
@@ -47,4 +50,11 @@ export declare class UsersService {
     deleteOne(id: string, payloadToken: PayloadDto): Promise<{
         message: string;
     }>;
+    uploadFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<{
+        id: string;
+        name: string;
+        email: string;
+        avatar: string | null;
+    }>;
+    validateBuffer(file: MultipartFile): Promise<Buffer<ArrayBuffer>>;
 }

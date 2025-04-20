@@ -37,6 +37,9 @@ let UsersController = class UsersController {
     deleteUser(id, payloadToken) {
         return this.userService.deleteOne(id, payloadToken);
     }
+    uploadAvatarFile(req, payloadToken) {
+        return this.userService.uploadFile(req, payloadToken);
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -73,6 +76,15 @@ __decorate([
     __metadata("design:paramtypes", [String, payload_dto_1.PayloadDto]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "deleteUser", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, common_1.Post)("upload"),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, payload_dto_1.PayloadDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "uploadAvatarFile", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

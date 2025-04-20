@@ -6,6 +6,8 @@ import { UsersModule } from 'src/users/users.module';
 import { LoggerMiddleware } from 'src/commom/middlewares/logger.middleware';
 import { AuthModule } from 'src/auth/auth.module';
 import { CommentsModule } from 'src/comments/comments.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'node:path';
 
 @Module({
 	imports: [
@@ -13,6 +15,10 @@ import { CommentsModule } from 'src/comments/comments.module';
 		UsersModule, 
 		AuthModule, 
 		CommentsModule,
+		ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', '..', 'files'),
+			serveRoot: "/files"
+    }),
 	],
 	controllers: [AppController],
 	providers: [AppService],

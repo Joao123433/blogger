@@ -15,6 +15,8 @@ const users_module_1 = require("../users/users.module");
 const logger_middleware_1 = require("../commom/middlewares/logger.middleware");
 const auth_module_1 = require("../auth/auth.module");
 const comments_module_1 = require("../comments/comments.module");
+const serve_static_1 = require("@nestjs/serve-static");
+const node_path_1 = require("node:path");
 let AppModule = class AppModule {
     configure(consumer) {
         consumer.apply(logger_middleware_1.LoggerMiddleware).forRoutes({
@@ -31,6 +33,10 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             comments_module_1.CommentsModule,
+            serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, node_path_1.join)(__dirname, '..', '..', 'files'),
+                serveRoot: "/files"
+            }),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

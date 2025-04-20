@@ -14,6 +14,8 @@ const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const cuid2_1 = require("@paralleldrive/cuid2");
 const hashing_service_1 = require("../auth/hash/hashing.service");
+const path = require("node:path");
+const fs = require("node:fs");
 let UsersService = class UsersService {
     prisma;
     hashingService;
@@ -33,6 +35,7 @@ let UsersService = class UsersService {
                     email: true,
                     created_at: true,
                     updated_at: true,
+                    avatar: true,
                     Posts: true,
                     Comments: true
                 }
@@ -129,6 +132,64 @@ let UsersService = class UsersService {
         catch (error) {
             throw new common_1.HttpException("Error deleting user", common_1.HttpStatus.BAD_REQUEST);
         }
+    }
+    async uploadFile(req, payloadToken) {
+        try {
+            const file = await req.file();
+            if (!file || file.filename === '')
+                throw new common_1.HttpException("No file provided", common_1.HttpStatus.NO_CONTENT);
+            const fileExtension = path.extname(file.filename).toLowerCase().substring(1);
+            const filePathBase = path.resolve(process.cwd(), 'files', payloadToken.sub);
+            const fileName = `${payloadToken.sub}.${fileExtension}`;
+            const fileLocale = path.resolve(process.cwd(), 'files', fileName);
+            const buffer = await this.validateBuffer(file);
+            ['png', 'jpeg', 'jpg'].forEach(ext => {
+                const file = `${filePathBase}.${ext}`;
+                if (fs.existsSync(file))
+                    fs.unlinkSync(file);
+            });
+            fs.writeFileSync(fileLocale, buffer);
+            const findUser = await this.prisma.users.findFirst({
+                where: {
+                    id: payloadToken.sub
+                }
+            });
+            if (!findUser)
+                throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+            const updatedUser = await this.prisma.users.update({
+                data: {
+                    avatar: fileName
+                },
+                where: {
+                    id: findUser.id
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                    avatar: true,
+                }
+            });
+            return updatedUser;
+        }
+        catch (error) {
+            throw new common_1.HttpException(error.message ? error.message : "Failed to update user's avatar", common_1.HttpStatus.NOT_FOUND);
+        }
+    }
+    async validateBuffer(file) {
+        if (!file.mimetype.match(/jpeg|png/g))
+            throw new common_1.HttpException('File type not allowed', common_1.HttpStatus.UNPROCESSABLE_ENTITY);
+        let totalSize = 0;
+        let maxSize = 1000000;
+        const chunks = [];
+        for await (const chunk of file.file) {
+            totalSize += chunk.length;
+            if (totalSize > maxSize)
+                throw new common_1.HttpException(`File exceeds the total size limit of 1MB`, common_1.HttpStatus.PAYLOAD_TOO_LARGE);
+            chunks.push(chunk);
+        }
+        const buffer = Buffer.concat(chunks);
+        return buffer;
     }
 };
 exports.UsersService = UsersService;

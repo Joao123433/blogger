@@ -21,8 +21,26 @@ export class PostsService {
 				story: true,
 				conclusion: true,
 				created_at: true,
-				userId: true,
-				Comments: true
+				user: {
+					select: {
+						id: true,
+						name: true,
+						email: true,
+						created_at: true
+					}
+				},
+				Comments: {
+					select: {
+						comment: true,
+						user: {
+							select: {
+								name: true,
+								email: true,
+								created_at: true
+							}
+						}
+					}
+				}
 			},
 			take: limit,
 			skip: offset,
@@ -44,8 +62,26 @@ export class PostsService {
 					story: true,
 					conclusion: true,
 					created_at: true,
-					userId: true,
-					Comments: true
+					user: {
+						select: {
+							id: true,
+							name: true,
+							email: true,
+							created_at: true
+						}
+					},
+					Comments: {
+						select: {
+							comment: true,
+							user: {
+								select: {
+									name: true,
+									email: true,
+									created_at: true
+								}
+							}
+						}
+					}
 				},
 				where: {
 					id: id,

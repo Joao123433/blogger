@@ -36,8 +36,21 @@ let UsersService = class UsersService {
                     created_at: true,
                     updated_at: true,
                     avatar: true,
-                    Posts: true,
-                    Comments: true
+                    Posts: {
+                        select: {
+                            id: true,
+                            title: true,
+                            introduction: true,
+                            created_at: true
+                        }
+                    },
+                    Comments: {
+                        select: {
+                            id: true,
+                            comment: true,
+                            created_at: true
+                        }
+                    }
                 }
             });
             if (!findUser)

@@ -19,20 +19,13 @@ export declare class UsersService {
         Posts: {
             id: string;
             created_at: Date | null;
-            updated_at: Date | null;
             title: string;
             introduction: string;
-            story: string;
-            conclusion: string;
-            userId: string | null;
         }[];
         Comments: {
             id: string;
             created_at: Date;
-            updated_at: Date | null;
-            userId: string | null;
             comment: string;
-            postId: string | null;
         }[];
     }>;
     createOne(body: CreateUserDto): Promise<{

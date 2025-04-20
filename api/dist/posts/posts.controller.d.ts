@@ -7,45 +7,55 @@ export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);
     findAllPosts(pagination: PaginationDto): Promise<{
+        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
-        id: string;
         created_at: Date | null;
-        userId: string | null;
         Comments: {
-            id: string;
-            created_at: Date;
-            updated_at: Date | null;
-            userId: string | null;
-            postId: string | null;
+            user: {
+                created_at: Date;
+                name: string;
+                email: string;
+            } | null;
             comment: string;
         }[];
+        user: {
+            id: string;
+            created_at: Date;
+            name: string;
+            email: string;
+        } | null;
     }[]>;
     findPostById(id: string): Promise<{
+        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
-        id: string;
         created_at: Date | null;
-        userId: string | null;
         Comments: {
-            id: string;
-            created_at: Date;
-            updated_at: Date | null;
-            userId: string | null;
-            postId: string | null;
+            user: {
+                created_at: Date;
+                name: string;
+                email: string;
+            } | null;
             comment: string;
         }[];
+        user: {
+            id: string;
+            created_at: Date;
+            name: string;
+            email: string;
+        } | null;
     }>;
     CreatePost(body: CreatePostDto, payloadToken: PayloadDto): Promise<{
+        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
-        id: string;
         created_at: Date | null;
         userId: string | null;
         Comments: {
@@ -53,16 +63,16 @@ export declare class PostsController {
             created_at: Date;
             updated_at: Date | null;
             userId: string | null;
-            postId: string | null;
             comment: string;
+            postId: string | null;
         }[];
     }>;
     UpdatePost(id: string, body: UpdatePostDto, payloadToken: PayloadDto): Promise<{
+        id: string;
         title: string;
         introduction: string;
         story: string;
         conclusion: string;
-        id: string;
         created_at: Date | null;
         updated_at: Date | null;
         userId: string | null;
@@ -71,8 +81,8 @@ export declare class PostsController {
             created_at: Date;
             updated_at: Date | null;
             userId: string | null;
-            postId: string | null;
             comment: string;
+            postId: string | null;
         }[];
     }>;
     DeletePost(id: string, payloadToken: PayloadDto): Promise<{

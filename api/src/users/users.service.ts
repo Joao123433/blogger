@@ -82,7 +82,10 @@ export class UsersService {
  
       return user
     } catch (error) {
-      throw new HttpException("Error creating user", HttpStatus.BAD_REQUEST)
+      throw new HttpException(
+        "Failed to create user",
+        error instanceof HttpException ? error.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 

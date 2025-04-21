@@ -53,9 +53,11 @@ export class UsersService {
   
       return findUser;  
     } catch (error) {
-      throw new HttpException("User not found", HttpStatus.NOT_FOUND)
+      throw new HttpException(
+        "Failed to find user",
+        error instanceof HttpException ? error.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
-    
   }
 
   async createOne(body: CreateUserDto) {

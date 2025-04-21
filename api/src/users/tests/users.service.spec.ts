@@ -5,10 +5,10 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { PayloadDto } from "src/auth/dto/payload.dto";
 import { HttpException, HttpStatus } from "@nestjs/common";
 import * as cuid2 from "@paralleldrive/cuid2";
-import { rejects } from "assert";
+import { UpdateUserDto } from "../dto/update-user.dto";
 
 const payloadToken: PayloadDto = {
-  sub: "asdf",
+  sub: "mocked-id",
   email: "test@test.com",
   iat: 123,
   exp: 123,
@@ -16,8 +16,13 @@ const payloadToken: PayloadDto = {
   iss: "",
 }
 
+const payloadTokenReject = {
+  ...payloadToken,
+  sub: "asdf"
+}
+
 const mockUser = {
-  id: "asdf",
+  id: "mocked-id",
   name: "Test",
   passwordHash: "HASH_MOCK_EXEMPLO",
   email: "test@test.com",
@@ -26,12 +31,6 @@ const mockUser = {
   updated_at: new Date(),
   Posts: [],
   Comments: []
-}
-
-const userDto = {
-  name: "Test",
-  passwordHash: "12345678",
-  email: "test@test.com"
 }
 
 describe("User Service", () => {
@@ -53,6 +52,8 @@ describe("User Service", () => {
                 name: "Test",
                 email: "test@test.com"
               }),
+              update: jest.fn(),
+              delete: jest.fn()
             }
           }
         },
@@ -165,6 +166,12 @@ describe("User Service", () => {
   })
 
   describe("Create User", () => {
+    const userDto = {
+      name: "Test",
+      passwordHash: "12345678",
+      email: "test@test.com"
+    }
+
     it("should successfully create and return a new user", async () => {
       // FIRST A
       jest.spyOn(cuid2, 'createId').mockReturnValue('mocked-id');
@@ -237,7 +244,7 @@ describe("User Service", () => {
       jest.spyOn(prismaService.users, "create").mockRejectedValue(new Error("Database Error"))
 
       // SECOND A
-      await expect(usersService.createOne(userDto)  ).rejects.toThrow(
+      await expect(usersService.createOne(userDto)).rejects.toThrow(
         new HttpException("Failed to create user", HttpStatus.INTERNAL_SERVER_ERROR)
       )
 
@@ -259,6 +266,78 @@ describe("User Service", () => {
           updated_at: true
         }
       })
+    })
+  })
+
+  describe("Update User", () => {
+    const userDto = {
+      name: "Test",
+      passwordHash: "12345678",
+    }
+
+    it("should successfully update and return the updated user details", async () => {
+      // FIRST A
+      const updateUser = {
+        id: "mocked-id",
+        name: "test 2",
+        email: "test2@test.com",
+        passwordHash: "HASH_MOCK_EXEMPLO_NOVO",
+        avatar: null,
+        created_at: new Date(),
+        updated_at: new Date()
+      }
+
+      // SECOND A
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(mockUser)
+      jest.spyOn(hashingService, "hash").mockResolvedValue("HASH_MOCK_EXEMPLO_NOVO")
+      jest.spyOn(prismaService.users, "update").mockResolvedValue(updateUser)
+
+      const result = await usersService.updateOne(mockUser.id, userDto, payloadToken)
+
+      // THIRD A
+      expect(hashingService.hash).toHaveBeenCalledWith(userDto.passwordHash)
+
+      expect(prismaService.users.update).toHaveBeenCalledWith({
+        where: {
+          id: mockUser.id
+        },
+        data: {
+          name: userDto.name,
+          passwordHash: updateUser.passwordHash,
+          updated_at: new Date() 
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        }
+      })
+
+      expect(result).toEqual(updateUser)
+    })
+
+    it("should throw an INTERNAL_SERVER_ERROR exception when a database error occurs during update", async () => {
+      jest.spyOn(prismaService.users, "findFirst").mockRejectedValue(new Error("Database Error"))
+
+      await expect(usersService.updateOne(mockUser.id, UpdateUserDto, payloadToken)).rejects.toThrow(
+        new HttpException("Error updating user", HttpStatus.INTERNAL_SERVER_ERROR)
+      )
+    })
+
+    it("should throw a NOT_FOUND exception when the user to update is not found", async () => {
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(null)
+
+      await expect(usersService.updateOne(mockUser.id, userDto, payloadToken)).rejects.toThrow(
+        new HttpException("Error updating user", HttpStatus.NOT_FOUND)
+      )
+    })
+
+    it("should throw a BAD_REQUEST exception when the user is not authorized to update", async () => {
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(mockUser)
+
+      await expect(usersService.updateOne(mockUser.id, UpdateUserDto, payloadTokenReject)).rejects.toThrow(
+        new HttpException("Error updating user", HttpStatus.BAD_REQUEST)
+      )
     })
   })
 })

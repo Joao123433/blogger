@@ -99,7 +99,7 @@ export class UsersService {
   
       if(!findUser) throw new HttpException("User not found", HttpStatus.NOT_FOUND)
 
-      if(findUser.id !== payloadToken.sub) throw new HttpException("Access denied", HttpStatus.NOT_FOUND)
+      if(findUser.id !== payloadToken.sub) throw new HttpException("Access denied", HttpStatus.BAD_REQUEST)
 
       const dataUser: {name?: string, passwordHash?: string} = {
         name: body?.name ? body.name : findUser.name
@@ -128,7 +128,10 @@ export class UsersService {
 
       return user
     } catch (error) {
-      throw new HttpException("Error updating user", HttpStatus.BAD_REQUEST)
+      throw new HttpException(
+        "Error updating user",
+        error instanceof HttpException ? error.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR
+      )
     }
   }
 

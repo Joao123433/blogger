@@ -12,6 +12,7 @@ export class ApiExceptionFilter implements ExceptionFilter {
 
     response.status(status).send({
       statusCode: status,
+      error: exception.name,
       timestamp: new Date().toISOString(),
       path: request.url,
       message: exception.message !== '' ? exception.message : "Error performing the operation"

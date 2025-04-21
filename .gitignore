@@ -6,3 +6,4 @@ migrations
 docker-compose.yml
 dist
 files
+coverage

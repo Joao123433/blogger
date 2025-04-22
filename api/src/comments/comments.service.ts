@@ -4,12 +4,13 @@ import { PayloadDto } from 'src/auth/dto/payload.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { createId } from '@paralleldrive/cuid2';
 import { UpdateCommentDto } from './dto/update-comment.dto';
+import { ReponseGetComment, ResponseUpdateComment } from './dto/responses.dto';
 
 @Injectable()
 export class CommentsService {
   constructor(private prisma: PrismaService) {}
 
-  async findComments(postId: string) {
+  async findComments(postId: string): Promise<ReponseGetComment[]> {
     const comments = await this.prisma.comments.findMany({
       where: {
         postId: postId,
@@ -19,7 +20,7 @@ export class CommentsService {
     return comments;
   }
 
-  async createOne(body: CreateCommentDto, payloadToken: PayloadDto) {
+  async createOne(body: CreateCommentDto, payloadToken: PayloadDto): Promise<ReponseGetComment> {
     try {
       const comment = await this.prisma.comments.create({
         data: {
@@ -36,7 +37,7 @@ export class CommentsService {
     }
   }
 
-  async updateOne(id: string, body: UpdateCommentDto, payloadToken: PayloadDto) {
+  async updateOne(id: string, body: UpdateCommentDto, payloadToken: PayloadDto): Promise<ResponseUpdateComment> {
     try {
       const findComment = await this.prisma.comments.findFirst({
         where: {

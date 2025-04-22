@@ -5,49 +5,17 @@ import { HashingServiceProtocol } from 'src/auth/hash/hashing.service';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
 import { FastifyRequest } from 'fastify';
 import { MultipartFile } from '@fastify/multipart';
+import { ResponseCreateUserDto, ResponseFindUserDto, ResponseUpdateAvatarDto, ResponseUpdateUserDto } from './dto/response.dto';
 export declare class UsersService {
     private prisma;
     private hashingService;
     constructor(prisma: PrismaService, hashingService: HashingServiceProtocol);
-    findOne(payloadToken: PayloadDto): Promise<{
-        id: string;
-        created_at: Date | null;
-        updated_at: Date | null;
-        Comments: {
-            id: string;
-            created_at: Date | null;
-            comment: string;
-        }[];
-        name: string;
-        email: string;
-        avatar: string | null;
-        Posts: {
-            title: string;
-            introduction: string;
-            id: string;
-            created_at: Date | null;
-        }[];
-    }>;
-    createOne(body: CreateUserDto): Promise<{
-        id: string;
-        created_at: Date | null;
-        updated_at: Date | null;
-        name: string;
-        email: string;
-    }>;
-    updateOne(id: string, body: UpdateUserDto, payloadToken: PayloadDto): Promise<{
-        id: string;
-        name: string;
-        email: string;
-    }>;
+    findOne(payloadToken: PayloadDto): Promise<ResponseFindUserDto>;
+    createOne(body: CreateUserDto): Promise<ResponseCreateUserDto>;
+    updateOne(id: string, body: UpdateUserDto, payloadToken: PayloadDto): Promise<ResponseUpdateUserDto>;
     deleteOne(id: string, payloadToken: PayloadDto): Promise<{
         message: string;
     }>;
-    uploadFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<{
-        id: string;
-        name: string;
-        email: string;
-        avatar: string | null;
-    }>;
+    uploadFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<ResponseUpdateAvatarDto>;
     validateBuffer(file: MultipartFile): Promise<Buffer<ArrayBuffer>>;
 }

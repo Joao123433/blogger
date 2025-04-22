@@ -10,6 +10,7 @@ import { FastifyRequest } from 'fastify';
 import * as path from 'node:path';
 import * as fs from 'node:fs';
 import { MultipartFile } from '@fastify/multipart';
+import { ResponseCreateUserDto, ResponseFindUserDto, ResponseUpdateAvatarDto, ResponseUpdateUserDto } from './dto/response.dto';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +19,7 @@ export class UsersService {
     private hashingService: HashingServiceProtocol
   ) {}
 
-  async findOne(payloadToken: PayloadDto) {
+  async findOne(payloadToken: PayloadDto): Promise<ResponseFindUserDto> {
     try {
       const findUser = await this.prisma.users.findFirst({
         where:{
@@ -60,7 +61,7 @@ export class UsersService {
     }
   }
 
-  async createOne(body: CreateUserDto) {
+  async createOne(body: CreateUserDto): Promise<ResponseCreateUserDto> {
     try {
       const passwordHash = await this.hashingService.hash(body.passwordHash)
       
@@ -89,7 +90,7 @@ export class UsersService {
     }
   }
 
-  async updateOne(id: string, body: UpdateUserDto, payloadToken: PayloadDto) {
+  async updateOne(id: string, body: UpdateUserDto, payloadToken: PayloadDto): Promise<ResponseUpdateUserDto> {
     try {
       const findUser = await this.prisma.users.findFirst({
         where:{
@@ -159,7 +160,7 @@ export class UsersService {
     }
   }
 
-  async uploadFile(req: FastifyRequest, payloadToken: PayloadDto) {
+  async uploadFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<ResponseUpdateAvatarDto> {
     try {
       const file = await req.file();
       if(!file || file.filename === '') throw new HttpException("No file provided", HttpStatus.NO_CONTENT)

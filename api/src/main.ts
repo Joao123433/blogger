@@ -21,7 +21,7 @@ async function bootstrap() {
 
 	const configSwagger = new DocumentBuilder()
 		.setTitle("Blog")
-		.setDescription("API blogger")
+		.setDescription("API Nestjs + Fastify + Prisma + Swagger")
 		.addBearerAuth()
 		.setVersion("1.0")
 		.build()

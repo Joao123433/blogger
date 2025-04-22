@@ -6,44 +6,11 @@ import { FastifyRequest } from 'fastify';
 export declare class UsersController {
     private readonly userService;
     constructor(userService: UsersService);
-    findOneUser(payloadToken: PayloadDto): Promise<{
-        id: string;
-        name: string;
-        email: string;
-        avatar: string | null;
-        created_at: Date | null;
-        updated_at: Date | null;
-        Posts: {
-            id: string;
-            created_at: Date | null;
-            title: string;
-            introduction: string;
-        }[];
-        Comments: {
-            id: string;
-            created_at: Date | null;
-            comment: string;
-        }[];
-    }>;
-    createUser(body: CreateUserDto): Promise<{
-        id: string;
-        name: string;
-        email: string;
-        created_at: Date | null;
-        updated_at: Date | null;
-    }>;
-    updateUser(id: string, body: UpdateUserDto, payloadToken: PayloadDto): Promise<{
-        id: string;
-        name: string;
-        email: string;
-    }>;
+    findOneUser(payloadToken: PayloadDto): Promise<import("./dto/response.dto").ResponseFindUserDto>;
+    createUser(body: CreateUserDto): Promise<import("./dto/response.dto").ResponseCreateUserDto>;
+    updateUser(id: string, body: UpdateUserDto, payloadToken: PayloadDto): Promise<import("./dto/response.dto").ResponseUpdateUserDto>;
     deleteUser(id: string, payloadToken: PayloadDto): Promise<{
         message: string;
     }>;
-    uploadAvatarFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<{
-        id: string;
-        name: string;
-        email: string;
-        avatar: string | null;
-    }>;
+    uploadAvatarFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<import("./dto/response.dto").ResponseUpdateAvatarDto>;
 }

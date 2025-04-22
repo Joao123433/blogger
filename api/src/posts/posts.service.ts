@@ -5,12 +5,13 @@ import { PaginationDto } from 'src/commom/dto/Pagination.dto';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { ResponseCreatePostDto, ResponseFindPostDto } from './dto/response.dto';
 
 @Injectable()
 export class PostsService {
 	constructor(private prisma: PrismaService) {}
 
-	async findAll(pagination: PaginationDto) {
+	async findAll(pagination: PaginationDto): Promise<ResponseFindPostDto[]> {
 		const { limit = 6, offset = 0 } = pagination;
 
 		const posts = await this.prisma.posts.findMany({
@@ -52,7 +53,7 @@ export class PostsService {
 		return posts;
 	}
 
-	async findById(id: string) {
+	async findById(id: string): Promise<ResponseFindPostDto> {
 		try {
 			const post = await this.prisma.posts.findFirst({
 				select: {
@@ -96,7 +97,7 @@ export class PostsService {
 		}
 	}
 
-	async createOne(body: CreatePostDto, payloadToken: PayloadDto) {
+	async createOne(body: CreatePostDto, payloadToken: PayloadDto): Promise<ResponseCreatePostDto> {
 		try {
 			const newPost = await this.prisma.posts.create({
 				data: {
@@ -125,7 +126,7 @@ export class PostsService {
 		}
 	}
 
-	async updateOne(id: string, body: UpdatePostDto, payloadToken: PayloadDto) {
+	async updateOne(id: string, body: UpdatePostDto, payloadToken: PayloadDto): Promise<ResponseCreatePostDto> {
 		try {
 			const findPost = await this.prisma.posts.findFirst({
 				where: {

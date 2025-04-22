@@ -3,6 +3,7 @@ import { AppModule } from './app/app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import multipart from '@fastify/multipart';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
 	const app = await NestFactory.create<NestFastifyApplication>(
@@ -15,7 +16,19 @@ async function bootstrap() {
 			whitelist: true, // remove os campos que nao estao no dto
 		}),
 	);
+
 	await app.register(multipart)
+
+	const configSwagger = new DocumentBuilder()
+		.setTitle("Blog")
+		.setDescription("API blogger")
+		.addBearerAuth()
+		.setVersion("1.0")
+		.build()
+
+	const documentFactory = () => SwaggerModule.createDocument(app, configSwagger)
+	SwaggerModule.setup('docs', app, documentFactory)
+
 	await app.listen(process.env.PORT ?? 3000);
 }
 

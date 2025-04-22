@@ -5,6 +5,7 @@ import { HashingServiceProtocol } from './hash/hashing.service';
 import jwtConfig from './config/jwt.config';
 import { ConfigType } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { ResponseSigninDto } from './dto/response.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,7 +18,7 @@ export class AuthService {
     private readonly jwtService: JwtService
   ) {}
 
-  async signin(body: SigninDto) {
+  async signin(body: SigninDto): Promise<ResponseSigninDto> {
     const findUser = await this.prisma.users.findFirst({
       where: {
         email: body.email

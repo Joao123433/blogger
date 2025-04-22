@@ -17,21 +17,21 @@ model Posts {
   updated_at   DateTime?  @default(now())
   Comments     Comments[]
 
-  userId String?
-  user   Users?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Comments {
   id         String    @id
   comment    String
-  created_at DateTime  @default(now())
+  created_at DateTime? @default(now())
   updated_at DateTime? @default(now())
 
-  postId String?
-  post   Posts?  @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+  post   Posts  @relation(fields: [postId], references: [id], onDelete: Cascade)
 
-  userId String?
-  user   Users?  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+  user   Users  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Users {
@@ -40,7 +40,7 @@ model Users {
   passwordHash String
   email        String     @unique
   avatar       String?
-  created_at   DateTime   @default(now())
+  created_at   DateTime?  @default(now())
   updated_at   DateTime?  @default(now())
   Posts        Posts[]
   Comments     Comments[]

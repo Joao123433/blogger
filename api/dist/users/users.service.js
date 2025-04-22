@@ -58,7 +58,7 @@ let UsersService = class UsersService {
             return findUser;
         }
         catch (error) {
-            throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
+            throw new common_1.HttpException("Failed to find user", error instanceof common_1.HttpException ? error.getStatus() : common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     async createOne(body) {
@@ -82,7 +82,7 @@ let UsersService = class UsersService {
             return user;
         }
         catch (error) {
-            throw new common_1.HttpException("Error creating user", common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException("Failed to create user", error instanceof common_1.HttpException ? error.getStatus() : common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     async updateOne(id, body, payloadToken) {
@@ -95,7 +95,7 @@ let UsersService = class UsersService {
             if (!findUser)
                 throw new common_1.HttpException("User not found", common_1.HttpStatus.NOT_FOUND);
             if (findUser.id !== payloadToken.sub)
-                throw new common_1.HttpException("Access denied", common_1.HttpStatus.NOT_FOUND);
+                throw new common_1.HttpException("Access denied", common_1.HttpStatus.BAD_REQUEST);
             const dataUser = {
                 name: body?.name ? body.name : findUser.name
             };
@@ -121,7 +121,7 @@ let UsersService = class UsersService {
             return user;
         }
         catch (error) {
-            throw new common_1.HttpException("Error updating user", common_1.HttpStatus.BAD_REQUEST);
+            throw new common_1.HttpException("Error updating user", error instanceof common_1.HttpException ? error.getStatus() : common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     async deleteOne(id, payloadToken) {

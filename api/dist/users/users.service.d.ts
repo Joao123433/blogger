@@ -11,29 +11,29 @@ export declare class UsersService {
     constructor(prisma: PrismaService, hashingService: HashingServiceProtocol);
     findOne(payloadToken: PayloadDto): Promise<{
         id: string;
+        created_at: Date | null;
+        updated_at: Date | null;
+        Comments: {
+            id: string;
+            created_at: Date | null;
+            comment: string;
+        }[];
         name: string;
         email: string;
         avatar: string | null;
-        created_at: Date;
-        updated_at: Date | null;
         Posts: {
-            id: string;
-            created_at: Date | null;
             title: string;
             introduction: string;
-        }[];
-        Comments: {
             id: string;
-            created_at: Date;
-            comment: string;
+            created_at: Date | null;
         }[];
     }>;
     createOne(body: CreateUserDto): Promise<{
         id: string;
+        created_at: Date | null;
+        updated_at: Date | null;
         name: string;
         email: string;
-        created_at: Date;
-        updated_at: Date | null;
     }>;
     updateOne(id: string, body: UpdateUserDto, payloadToken: PayloadDto): Promise<{
         id: string;

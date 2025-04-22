@@ -10,18 +10,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaginationDto = void 0;
+const openapi = require("@nestjs/swagger");
 const class_transformer_1 = require("class-transformer");
 const class_validator_1 = require("class-validator");
 class PaginationDto {
     limit;
     offset;
+    static _OPENAPI_METADATA_FACTORY() {
+        return { limit: { required: true, type: () => Number, minimum: 6, maximum: 10 }, offset: { required: true, type: () => Number, minimum: 0, maximum: 6 } };
+    }
 }
 exports.PaginationDto = PaginationDto;
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.Min)(6),
-    (0, class_validator_1.Max)(6),
+    (0, class_validator_1.Max)(10),
     (0, class_transformer_1.Type)(() => Number),
     __metadata("design:type", Number)
 ], PaginationDto.prototype, "limit", void 0);

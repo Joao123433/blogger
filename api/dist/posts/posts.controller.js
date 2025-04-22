@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const posts_service_1 = require("./posts.service");
 const Pagination_dto_1 = require("../commom/dto/Pagination.dto");
@@ -23,6 +24,7 @@ const exception_filter_1 = require("../commom/filters/exception-filter");
 const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
 const token_payload_param_1 = require("../auth/params/token-payload.param");
 const payload_dto_1 = require("../auth/dto/payload.dto");
+const swagger_1 = require("@nestjs/swagger");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {
@@ -47,6 +49,20 @@ let PostsController = class PostsController {
 exports.PostsController = PostsController;
 __decorate([
     (0, common_1.Get)(),
+    (0, swagger_1.ApiOperation)({ summary: "Find all posts" }),
+    (0, swagger_1.ApiQuery)({
+        name: "limit",
+        required: false,
+        example: 10,
+        description: "Limit of posts to fetch"
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: "offset",
+        required: false,
+        example: 0,
+        description: "Number of items to skip"
+    }),
+    openapi.ApiResponse({ status: 200, type: [require("./dto/response.dto").ResponseFindPostDto] }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Pagination_dto_1.PaginationDto]),
@@ -54,14 +70,24 @@ __decorate([
 ], PostsController.prototype, "findAllPosts", null);
 __decorate([
     (0, common_1.Get)(':id'),
+    (0, swagger_1.ApiOperation)({ summary: "Find a post" }),
+    (0, swagger_1.ApiParam)({
+        name: "id",
+        example: "dtpysooc8k9p2mk6f09rv5ro",
+        description: "Post identifier"
+    }),
+    openapi.ApiResponse({ status: 200, type: require("./dto/response.dto").ResponseFindPostDto }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "findPostById", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Post)(),
+    (0, swagger_1.ApiOperation)({ summary: "Create a post" }),
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    openapi.ApiResponse({ status: 201, type: require("./dto/response.dto").ResponseCreatePostDto }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
@@ -69,8 +95,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "CreatePost", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Patch)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: "Update a post" }),
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    openapi.ApiResponse({ status: 200, type: require("./dto/response.dto").ResponseCreatePostDto }),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, token_payload_param_1.TokenPayloadParam)()),
@@ -79,8 +108,11 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], PostsController.prototype, "UpdatePost", null);
 __decorate([
-    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Delete)(":id"),
+    (0, swagger_1.ApiOperation)({ summary: "Delete a post" }),
+    (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, swagger_1.ApiBearerAuth)(),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),

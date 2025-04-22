@@ -11,7 +11,7 @@ export declare class UsersController {
         name: string;
         email: string;
         avatar: string | null;
-        created_at: Date;
+        created_at: Date | null;
         updated_at: Date | null;
         Posts: {
             id: string;
@@ -21,7 +21,7 @@ export declare class UsersController {
         }[];
         Comments: {
             id: string;
-            created_at: Date;
+            created_at: Date | null;
             comment: string;
         }[];
     }>;
@@ -29,7 +29,7 @@ export declare class UsersController {
         id: string;
         name: string;
         email: string;
-        created_at: Date;
+        created_at: Date | null;
         updated_at: Date | null;
     }>;
     updateUser(id: string, body: UpdateUserDto, payloadToken: PayloadDto): Promise<{

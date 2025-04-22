@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
+const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
 const create_user_dto_1 = require("./dto/create-user.dto");
@@ -20,6 +21,9 @@ const update_user_dto_1 = require("./dto/update-user.dto");
 const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
 const token_payload_param_1 = require("../auth/params/token-payload.param");
 const payload_dto_1 = require("../auth/dto/payload.dto");
+const swagger_1 = require("@nestjs/swagger");
+const exception_filter_1 = require("../commom/filters/exception-filter");
+const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
 let UsersController = class UsersController {
     userService;
     constructor(userService) {
@@ -45,6 +49,7 @@ exports.UsersController = UsersController;
 __decorate([
     (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, common_1.Get)(),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [payload_dto_1.PayloadDto]),
@@ -52,6 +57,7 @@ __decorate([
 ], UsersController.prototype, "findOneUser", null);
 __decorate([
     (0, common_1.Post)(),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto]),
@@ -59,7 +65,9 @@ __decorate([
 ], UsersController.prototype, "createUser", null);
 __decorate([
     (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Patch)(":id"),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, token_payload_param_1.TokenPayloadParam)()),
@@ -69,7 +77,9 @@ __decorate([
 ], UsersController.prototype, "updateUser", null);
 __decorate([
     (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Delete)(":id"),
+    openapi.ApiResponse({ status: 200 }),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
@@ -78,7 +88,9 @@ __decorate([
 ], UsersController.prototype, "deleteUser", null);
 __decorate([
     (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
+    (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Post)("upload"),
+    openapi.ApiResponse({ status: 201 }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, token_payload_param_1.TokenPayloadParam)()),
     __metadata("design:type", Function),
@@ -87,6 +99,8 @@ __decorate([
 ], UsersController.prototype, "uploadAvatarFile", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
+    (0, common_1.UseInterceptors)(logget_interceptor_1.LoggerInterceptor),
+    (0, common_1.UseFilters)(exception_filter_1.ApiExceptionFilter),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map

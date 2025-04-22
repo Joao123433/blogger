@@ -304,7 +304,7 @@ describe("User Service", () => {
         data: {
           name: userDto.name,
           passwordHash: updateUser.passwordHash,
-          updated_at: new Date() 
+          updated_at: expect.any(Date) 
         },
         select: {
           id: true,
@@ -337,6 +337,43 @@ describe("User Service", () => {
 
       await expect(usersService.updateOne(mockUser.id, UpdateUserDto, payloadTokenReject)).rejects.toThrow(
         new HttpException("Error updating user", HttpStatus.BAD_REQUEST)
+      )
+    })
+  })
+
+  describe("Delete User", () => {
+    it("should be delete user", async () => {
+      // SECOND A
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(mockUser)
+      jest.spyOn(prismaService.users, "delete").mockResolvedValue(mockUser)
+
+      const result = await usersService.deleteOne(mockUser.id, payloadToken)
+
+      // THIRD A
+      expect(prismaService.users.delete).toHaveBeenCalledWith({
+        where: {
+          id: mockUser.id
+        }  
+      })
+
+      expect(result).toEqual({
+        message: "User deleted successfully"
+      })
+    })
+
+    it("should thorw exception when user is not found", async () => {
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(null)
+
+      await expect(usersService.deleteOne(mockUser.id, payloadToken)).rejects.toThrow(
+        new HttpException("Error deleting user", HttpStatus.BAD_REQUEST)
+      )
+    })
+
+    it("should throw UNAUTHORIZED exception when user is not authorized", async () => {
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(mockUser)
+
+      await expect(usersService.deleteOne(mockUser.id, payloadTokenReject)).rejects.toThrow(
+        new HttpException("Error deleting user", HttpStatus.BAD_REQUEST)
       )
     })
   })

@@ -153,7 +153,7 @@ export class UsersService {
         }
       })
       
-      return {message: "User deleted successfully"}
+      return { message: "User deleted successfully" }
     } catch (error) {
       throw new HttpException("Error deleting user", HttpStatus.BAD_REQUEST)
     }

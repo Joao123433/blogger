@@ -1,4 +1,4 @@
-export class ResponseFindPostDto {
+export class ResponseOtherDto {
   id: string;
   title: string;
   introduction: string;
@@ -6,12 +6,13 @@ export class ResponseFindPostDto {
   conclusion: string;
   created_at: Date | null;
   Comments: {
+    id: string;
+    comment: string;
     user: {
       created_at: Date | null;
       name: string;
       email: string;
     }
-    comment: string;
   }[];
   user: {
     created_at: Date | null;
@@ -27,13 +28,9 @@ export class ResponseCreatePostDto {
   story: string;
   conclusion: string;
   created_at: Date | null;
-  userId: string;
-  Comments: {
-      id: string;
-      created_at: Date | null;
-      updated_at: Date | null;
-      userId: string;
-      comment: string;
-      postId: string;
-  }[];
+  user: {
+    name: string;
+    email: string;
+    created_at: Date | null;
+  };
 }

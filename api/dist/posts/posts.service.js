@@ -39,6 +39,7 @@ let PostsService = class PostsService {
                 Comments: {
                     select: {
                         comment: true,
+                        id: true,
                         user: {
                             select: {
                                 name: true,
@@ -77,6 +78,7 @@ let PostsService = class PostsService {
                     },
                     Comments: {
                         select: {
+                            id: true,
                             comment: true,
                             user: {
                                 select: {
@@ -118,8 +120,13 @@ let PostsService = class PostsService {
                     story: true,
                     conclusion: true,
                     created_at: true,
-                    userId: true,
-                    Comments: true
+                    user: {
+                        select: {
+                            name: true,
+                            email: true,
+                            created_at: true
+                        }
+                    }
                 }
             });
             return newPost;
@@ -154,9 +161,27 @@ let PostsService = class PostsService {
                     story: true,
                     conclusion: true,
                     created_at: true,
-                    updated_at: true,
-                    userId: true,
-                    Comments: true
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            email: true,
+                            created_at: true
+                        }
+                    },
+                    Comments: {
+                        select: {
+                            id: true,
+                            comment: true,
+                            user: {
+                                select: {
+                                    name: true,
+                                    email: true,
+                                    created_at: true
+                                }
+                            }
+                        }
+                    }
                 },
             });
             return post;

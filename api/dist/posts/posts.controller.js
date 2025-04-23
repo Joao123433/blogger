@@ -62,7 +62,7 @@ __decorate([
         example: 0,
         description: "Number of items to skip"
     }),
-    openapi.ApiResponse({ status: 200, type: [require("./dto/response.dto").ResponseFindPostDto] }),
+    openapi.ApiResponse({ status: 200, type: [require("./dto/response.dto").ResponseOtherDto] }),
     __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Pagination_dto_1.PaginationDto]),
@@ -76,7 +76,7 @@ __decorate([
         example: "dtpysooc8k9p2mk6f09rv5ro",
         description: "Post identifier"
     }),
-    openapi.ApiResponse({ status: 200, type: require("./dto/response.dto").ResponseFindPostDto }),
+    openapi.ApiResponse({ status: 200, type: require("./dto/response.dto").ResponseOtherDto }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -99,7 +99,7 @@ __decorate([
     (0, swagger_1.ApiOperation)({ summary: "Update a post" }),
     (0, common_1.UseGuards)(auth_token_guard_1.AuthTokenGuard),
     (0, swagger_1.ApiBearerAuth)(),
-    openapi.ApiResponse({ status: 200, type: require("./dto/response.dto").ResponseCreatePostDto }),
+    openapi.ApiResponse({ status: 200, type: require("./dto/response.dto").ResponseOtherDto }),
     __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, token_payload_param_1.TokenPayloadParam)()),

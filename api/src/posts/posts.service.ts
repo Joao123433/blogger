@@ -5,13 +5,13 @@ import { PaginationDto } from 'src/commom/dto/Pagination.dto';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
-import { ResponseCreatePostDto, ResponseFindPostDto } from './dto/response.dto';
+import { ResponseCreatePostDto, ResponseOtherDto } from './dto/response.dto';
 
 @Injectable()
 export class PostsService {
 	constructor(private prisma: PrismaService) {}
 
-	async findAll(pagination: PaginationDto): Promise<ResponseFindPostDto[]> {
+	async findAll(pagination: PaginationDto): Promise<ResponseOtherDto[]> {
 		const { limit = 6, offset = 0 } = pagination;
 
 		const posts = await this.prisma.posts.findMany({
@@ -33,6 +33,7 @@ export class PostsService {
 				Comments: {
 					select: {
 						comment: true,
+						id: true,
 						user: {
 							select: {
 								name: true,
@@ -53,7 +54,7 @@ export class PostsService {
 		return posts;
 	}
 
-	async findById(id: string): Promise<ResponseFindPostDto> {
+	async findById(id: string): Promise<ResponseOtherDto> {
 		try {
 			const post = await this.prisma.posts.findFirst({
 				select: {
@@ -73,6 +74,7 @@ export class PostsService {
 					},
 					Comments: {
 						select: {
+							id: true,
 							comment: true,
 							user: {
 								select: {
@@ -115,8 +117,13 @@ export class PostsService {
 					story: true,
 					conclusion: true,
 					created_at: true,
-					userId: true,
-					Comments: true
+					user: {
+						select: {
+							name: true,
+							email: true,
+							created_at: true
+						}
+					}
 				}
 			});
 	
@@ -126,7 +133,7 @@ export class PostsService {
 		}
 	}
 
-	async updateOne(id: string, body: UpdatePostDto, payloadToken: PayloadDto): Promise<ResponseCreatePostDto> {
+	async updateOne(id: string, body: UpdatePostDto, payloadToken: PayloadDto): Promise<ResponseOtherDto> {
 		try {
 			const findPost = await this.prisma.posts.findFirst({
 				where: {
@@ -154,9 +161,27 @@ export class PostsService {
 					story: true,
 					conclusion: true,
 					created_at: true,
-					updated_at: true,
-					userId: true,
-					Comments: true
+					user: {
+						select: {
+							id: true,
+							name: true,
+							email: true,
+							created_at: true
+						}
+					},
+					Comments: {
+						select: {
+							id: true,
+							comment: true,
+							user: {
+								select: {
+									name: true,
+									email: true,
+									created_at: true
+								}
+							}
+						}
+					}
 				},
 			});
 

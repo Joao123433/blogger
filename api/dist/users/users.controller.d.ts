@@ -1,7 +1,7 @@
-import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { UsersService } from './users.service';
 import { FastifyRequest } from 'fastify';
 export declare class UsersController {
     private readonly userService;

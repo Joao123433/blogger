@@ -1,16 +1,15 @@
+import { ResponseCreateUserDto, ResponseFindUserDto, ResponseUpdateAvatarDto, ResponseUpdateUserDto } from './dto/response.dto';
+import { HashingServiceProtocol } from 'src/auth/hash/hashing.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { createId } from '@paralleldrive/cuid2';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { HashingServiceProtocol } from 'src/auth/hash/hashing.service';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { createId } from '@paralleldrive/cuid2';
 import { FastifyRequest } from 'fastify';
 
 import * as path from 'node:path';
 import * as fs from 'node:fs';
-import { MultipartFile } from '@fastify/multipart';
-import { ResponseCreateUserDto, ResponseFindUserDto, ResponseUpdateAvatarDto, ResponseUpdateUserDto } from './dto/response.dto';
 
 @Injectable()
 export class UsersService {

@@ -1,9 +1,9 @@
 import { CanActivate, ExecutionContext, HttpException, HttpStatus, Inject, Injectable } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
-import { FastifyRequest } from 'fastify';
+import { AUTH_TOKEN_PAYLOAD } from "../commom/auth.constants";
 import jwtConfig from "../config/jwt.config";
 import { ConfigType } from "@nestjs/config";
-import { AUTH_TOKEN_PAYLOAD } from "../commom/auth.constants";
+import { JwtService } from "@nestjs/jwt";
+import { FastifyRequest } from 'fastify';
 
 @Injectable()
 export class AuthTokenGuard implements CanActivate {

@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const posts_module_1 = require("../posts/posts.module");
-const users_module_1 = require("../users/users.module");
 const logger_middleware_1 = require("../commom/middlewares/logger.middleware");
-const auth_module_1 = require("../auth/auth.module");
 const comments_module_1 = require("../comments/comments.module");
 const serve_static_1 = require("@nestjs/serve-static");
+const posts_module_1 = require("../posts/posts.module");
+const users_module_1 = require("../users/users.module");
+const auth_module_1 = require("../auth/auth.module");
+const app_controller_1 = require("./app.controller");
+const app_service_1 = require("./app.service");
 const node_path_1 = require("node:path");
 let AppModule = class AppModule {
     configure(consumer) {

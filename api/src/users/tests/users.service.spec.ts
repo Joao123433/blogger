@@ -1,16 +1,16 @@
-import { PrismaService } from "src/prisma/prisma.service";
-import { UsersService } from "../users.service"
 import { HashingServiceProtocol } from "src/auth/hash/hashing.service";
+import { PrismaService } from "src/prisma/prisma.service";
+import { HttpException, HttpStatus } from "@nestjs/common";
+import { UpdateUserDto } from "../dto/update-user.dto";
 import { Test, TestingModule } from "@nestjs/testing";
 import { PayloadDto } from "src/auth/dto/payload.dto";
-import { HttpException, HttpStatus } from "@nestjs/common";
+import { UsersService } from "../users.service"
 import * as cuid2 from "@paralleldrive/cuid2";
-import { UpdateUserDto } from "../dto/update-user.dto";
 
+import { BusboyFileStream } from "@fastify/busboy";
+import { Multipart } from "@fastify/multipart";
 import * as path from "node:path"
 import * as fs from "node:fs"
-import { Multipart } from "@fastify/multipart";
-import { BusboyFileStream } from "@fastify/busboy";
 
 jest.mock("node:fs")
 

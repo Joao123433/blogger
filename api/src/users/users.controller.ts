@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Req, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { LoggerInterceptor } from 'src/commom/interceptors/logget.interceptor';
+import { ApiExceptionFilter } from 'src/commom/filters/exception-filter';
+import { TokenPayloadParam } from 'src/auth/params/token-payload.param';
+import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
-import { TokenPayloadParam } from 'src/auth/params/token-payload.param';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { UsersService } from './users.service';
 import { FastifyRequest } from 'fastify';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiParam } from '@nestjs/swagger';
-import { ApiExceptionFilter } from 'src/commom/filters/exception-filter';
-import { LoggerInterceptor } from 'src/commom/interceptors/logget.interceptor';
 
 @Controller('users')
 @UseInterceptors(LoggerInterceptor)

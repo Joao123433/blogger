@@ -15,16 +15,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostsController = void 0;
 const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
-const posts_service_1 = require("./posts.service");
+const swagger_1 = require("@nestjs/swagger");
+const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
+const exception_filter_1 = require("../commom/filters/exception-filter");
+const token_payload_param_1 = require("../auth/params/token-payload.param");
+const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
 const Pagination_dto_1 = require("../commom/dto/Pagination.dto");
 const create_posts_dto_1 = require("./dto/create-posts.dto");
 const update_post_dto_1 = require("./dto/update-post-dto");
-const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
-const exception_filter_1 = require("../commom/filters/exception-filter");
-const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
-const token_payload_param_1 = require("../auth/params/token-payload.param");
 const payload_dto_1 = require("../auth/dto/payload.dto");
-const swagger_1 = require("@nestjs/swagger");
+const posts_service_1 = require("./posts.service");
 let PostsController = class PostsController {
     postsService;
     constructor(postsService) {

@@ -15,15 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const openapi = require("@nestjs/swagger");
 const common_1 = require("@nestjs/common");
-const users_service_1 = require("./users.service");
+const swagger_1 = require("@nestjs/swagger");
+const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
+const exception_filter_1 = require("../commom/filters/exception-filter");
+const token_payload_param_1 = require("../auth/params/token-payload.param");
+const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
 const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
-const auth_token_guard_1 = require("../auth/guard/auth-token.guard");
-const token_payload_param_1 = require("../auth/params/token-payload.param");
 const payload_dto_1 = require("../auth/dto/payload.dto");
-const swagger_1 = require("@nestjs/swagger");
-const exception_filter_1 = require("../commom/filters/exception-filter");
-const logget_interceptor_1 = require("../commom/interceptors/logget.interceptor");
+const users_service_1 = require("./users.service");
 let UsersController = class UsersController {
     userService;
     constructor(userService) {

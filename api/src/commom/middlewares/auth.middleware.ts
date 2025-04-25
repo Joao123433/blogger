@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Inject, NestMiddleware } from "@nestjs/common";
+import { AUTH_TOKEN_PAYLOAD } from "src/auth/commom/auth.constants";
+import { FastifyRequest, FastifyReply } from 'fastify';
+import jwtConfig from "src/auth/config/jwt.config";
 import { ConfigType } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
-import { FastifyRequest, FastifyReply, } from 'fastify';
-import { AUTH_TOKEN_PAYLOAD } from "src/auth/commom/auth.constants";
-import jwtConfig from "src/auth/config/jwt.config";
 
 export class AuthMiddleware implements NestMiddleware {
   constructor(

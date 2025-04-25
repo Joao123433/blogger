@@ -1,11 +1,11 @@
+import { ResponseCreatePostDto, ResponseOtherDto } from './dto/response.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { createId } from '@paralleldrive/cuid2';
-import { PrismaService } from 'src/prisma/prisma.service';
 import { PaginationDto } from 'src/commom/dto/Pagination.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
-import { ResponseCreatePostDto, ResponseOtherDto } from './dto/response.dto';
+import { createId } from '@paralleldrive/cuid2';
 
 @Injectable()
 export class PostsService {

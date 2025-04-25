@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, UseFilters, UseGuards, UseInterceptors } from '@nestjs/common';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { CommentsService } from './comments.service';
-import { TokenPayloadParam } from 'src/auth/params/token-payload.param';
-import { PayloadDto } from 'src/auth/dto/payload.dto';
-import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
-import { UpdateCommentDto } from './dto/update-comment.dto';
-import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
-import { ApiExceptionFilter } from 'src/commom/filters/exception-filter';
 import { LoggerInterceptor } from 'src/commom/interceptors/logget.interceptor';
+import { ApiExceptionFilter } from 'src/commom/filters/exception-filter';
+import { TokenPayloadParam } from 'src/auth/params/token-payload.param';
+import { ApiBearerAuth, ApiOperation, ApiParam } from '@nestjs/swagger';
+import { AuthTokenGuard } from 'src/auth/guard/auth-token.guard';
+import { CreateCommentDto } from './dto/create-comment.dto';
+import { UpdateCommentDto } from './dto/update-comment.dto';
+import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { CommentsService } from './comments.service';
 
 @Controller('comments')
 @UseInterceptors(LoggerInterceptor)

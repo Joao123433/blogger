@@ -1,9 +1,9 @@
-import { PrismaService } from 'src/prisma/prisma.service';
+import { ResponseCreatePostDto, ResponseOtherDto } from './dto/response.dto';
 import { PaginationDto } from 'src/commom/dto/Pagination.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
-import { ResponseCreatePostDto, ResponseOtherDto } from './dto/response.dto';
 export declare class PostsService {
     private prisma;
     constructor(prisma: PrismaService);

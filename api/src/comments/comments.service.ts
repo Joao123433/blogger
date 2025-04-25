@@ -1,10 +1,10 @@
+import { ReponseGetComment, ResponseUpdateComment } from './dto/responses.dto';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateCommentDto } from './dto/create-comment.dto';
-import { PayloadDto } from 'src/auth/dto/payload.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { createId } from '@paralleldrive/cuid2';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { ReponseGetComment, ResponseUpdateComment } from './dto/responses.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { createId } from '@paralleldrive/cuid2';
 
 @Injectable()
 export class CommentsService {

@@ -10,10 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersService = void 0;
+const hashing_service_1 = require("../auth/hash/hashing.service");
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../prisma/prisma.service");
 const cuid2_1 = require("@paralleldrive/cuid2");
-const hashing_service_1 = require("../auth/hash/hashing.service");
 const path = require("node:path");
 const fs = require("node:fs");
 let UsersService = class UsersService {

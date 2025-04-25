@@ -1,8 +1,8 @@
-import { PostsService } from './posts.service';
 import { PaginationDto } from 'src/commom/dto/Pagination.dto';
 import { CreatePostDto } from './dto/create-posts.dto';
 import { UpdatePostDto } from './dto/update-post-dto';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
+import { PostsService } from './posts.service';
 export declare class PostsController {
     private readonly postsService;
     constructor(postsService: PostsService);

@@ -4,7 +4,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { HashingServiceProtocol } from 'src/auth/hash/hashing.service';
 import { PayloadDto } from 'src/auth/dto/payload.dto';
 import { FastifyRequest } from 'fastify';
-import { MultipartFile } from '@fastify/multipart';
 import { ResponseCreateUserDto, ResponseFindUserDto, ResponseUpdateAvatarDto, ResponseUpdateUserDto } from './dto/response.dto';
 export declare class UsersService {
     private prisma;
@@ -17,5 +16,4 @@ export declare class UsersService {
         message: string;
     }>;
     uploadFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<ResponseUpdateAvatarDto>;
-    validateBuffer(file: MultipartFile): Promise<Buffer<ArrayBuffer>>;
 }

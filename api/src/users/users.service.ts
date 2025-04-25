@@ -1,4 +1,4 @@
-import { ConsoleLogger, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { createId } from '@paralleldrive/cuid2';
@@ -163,6 +163,7 @@ export class UsersService {
   async uploadFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<ResponseUpdateAvatarDto> {
     try {
       const file = await req.file();
+      console.log()
       if(!file || file.filename === '') throw new HttpException("No file provided", HttpStatus.NO_CONTENT)
 
       // CONFIGS
@@ -170,7 +171,8 @@ export class UsersService {
       const filePathBase = path.resolve(process.cwd(), 'files', payloadToken.sub);
       const fileName = `${payloadToken.sub}.${fileExtension}`;
       const fileLocale = path.resolve(process.cwd(), 'files', fileName);
-      const buffer = await this.validateBuffer(file);
+      const buffer = await file.toBuffer();
+
 
       // SAVE THE IMAGE, AND REPLACE IF IT ALREADY EXISTS
       ['png', 'jpeg', 'jpg'].forEach(ext => {
@@ -180,7 +182,6 @@ export class UsersService {
 
       fs.writeFileSync(fileLocale, buffer);
 
-      // ATT AVATAR USER 
       const findUser = await this.prisma.users.findFirst({
         where: {
           id: payloadToken.sub
@@ -208,24 +209,5 @@ export class UsersService {
     } catch (error) {
       throw new HttpException(error.message ? error.message : "Failed to update user's avatar", HttpStatus.NOT_FOUND);
     }
-  }
-
-  async validateBuffer(file: MultipartFile) {
-    if(!file.mimetype.match(/jpeg|png/g)) throw new HttpException('File type not allowed', HttpStatus.UNPROCESSABLE_ENTITY);
-
-    let totalSize = 0;
-    let maxSize = 1000000;
-    const chunks: Buffer[] = [];
-
-    for await (const chunk of file.file) {
-      totalSize += chunk.length;
-      if (totalSize > maxSize) throw new HttpException(`File exceeds the total size limit of 1MB`, HttpStatus.PAYLOAD_TOO_LARGE);
-
-      chunks.push(chunk);
-    }
-
-    const buffer = Buffer.concat(chunks);
-
-    return buffer;
   }
 }

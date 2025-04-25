@@ -7,6 +7,13 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 import * as cuid2 from "@paralleldrive/cuid2";
 import { UpdateUserDto } from "../dto/update-user.dto";
 
+import * as path from "node:path"
+import * as fs from "node:fs"
+import { Multipart } from "@fastify/multipart";
+import { BusboyFileStream } from "@fastify/busboy";
+
+jest.mock("node:fs")
+
 const payloadToken: PayloadDto = {
   sub: "mocked-id",
   email: "test@test.com",
@@ -32,6 +39,20 @@ const mockUser = {
   Posts: [],
   Comments: []
 }
+
+const file: Multipart = {
+  filename: "mocked-id.png",
+  mimetype: 'image/png',
+  file: (async function* () { 
+    yield Buffer.from('chunk1'); 
+    yield Buffer.from('chunk2'); 
+  })() as unknown as BusboyFileStream,
+  type: 'file',
+  toBuffer: async () => Buffer.concat([Buffer.from('chunk1'), Buffer.from('chunk2')]),
+  fieldname: 'file',
+  encoding: '7bit',
+  fields: {}
+};
 
 describe("User Service", () => {
   let usersService: UsersService;
@@ -377,4 +398,126 @@ describe("User Service", () => {
       )
     })
   })
+
+  describe("Update user avatar", () => {
+    it("should upload avatar and update user successfully", async () => {
+      const updatedUser = {
+        id: "mocked-id",
+        name: "Test",
+        email: "test@test.com",
+        passwordHash: "HASH_MOCK_EXEMPLO",
+        avatar: `mocked-id.png`,
+        created_at: new Date(),
+        updated_at: new Date(),
+      }
+
+      const mockReq = { file: async () => file };
+
+      const fileExtension = path.extname(file.filename).toLowerCase().substring(1);
+      const filePathBase = path.resolve(process.cwd(), 'files', "mocked-id.png");
+      const fileName = `${payloadToken.sub}.${fileExtension}`;
+      const fileLocale = path.resolve(process.cwd(), 'files', fileName);
+
+      jest.spyOn(fs, "existsSync").mockImplementation((filePath) => {
+        return String(filePath).endsWith(".png");
+      });
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(mockUser)
+      jest.spyOn(prismaService.users, "update").mockResolvedValue(updatedUser)
+      jest.spyOn(fs, "writeFileSync").mockReturnValue()
+
+      const result = await usersService.uploadFile(mockReq as any, payloadToken)
+
+      expect(fs.existsSync).toHaveBeenCalledWith(filePathBase);
+      expect(fs.unlinkSync).toHaveBeenCalledWith(filePathBase);
+
+      expect(fs.writeFileSync).toHaveBeenCalledWith(fileLocale, await file.toBuffer())
+
+      expect(result).toEqual({
+        id: 'mocked-id',
+        name: 'Test',
+        email: 'test@test.com',
+        passwordHash: 'HASH_MOCK_EXEMPLO',
+        avatar: 'mocked-id.png',
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date) 
+      });
+
+      expect(prismaService.users.update).toHaveBeenCalledWith({
+        data: {
+          avatar: updatedUser.avatar
+        },
+        where: {
+          id: mockUser.id
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          avatar: true,
+        }
+      })
+
+      expect(result).toEqual(updatedUser)
+    })
+
+    it("should throw erro if no file", async () => {
+      const file = {
+        filename: "",
+        mimetype: "",
+        file: []
+      }
+
+      const mockReq = { file: async () => file };
+
+      await expect(usersService.uploadFile(mockReq as any, payloadToken)).rejects.toThrow(
+        new HttpException("No file provided", HttpStatus.NOT_FOUND)
+      )
+    })
+
+    it("should throw NOT_FOUND when user is not found", async () => {
+      const mockReq = { file: async () => file };
+
+      jest.spyOn(prismaService.users, "findFirst").mockResolvedValue(null)
+
+      await expect(usersService.uploadFile(mockReq as any, payloadToken)).rejects.toThrow(
+        new HttpException("User not found", HttpStatus.NOT_FOUND)
+      )
+    })
+  })
+  //   it('retorna buffer válido se tipo e tamanho estiverem corretos', async () => {
+  //     const fakeFile: Multipart = {
+  //       filename: "mocked-id.png",
+  //       mimetype: 'image/png',
+  //       file: (async function* () { 
+  //         yield Buffer.from('chunk1'); 
+  //         yield Buffer.from('chunk2'); 
+  //       })() as unknown as BusboyFileStream,
+  //       type: 'file',
+  //       toBuffer: async () => Buffer.concat([Buffer.from('chunk1'), Buffer.from('chunk2')]),
+  //       fieldname: 'file',
+  //       encoding: '7bit',
+  //       fields: {}
+  //     };
+
+  //     const result = await usersService.validateBuffer(fakeFile);
+  //     console.log(result)
+  //     // expect(result.toString()).toBe('chunk1chunk2');
+  //   });
+  
+  //   // it('lança erro se tipo de arquivo for inválido', async () => {
+  //   //   const fakeFile = { mimetype: 'text/plain', file: [] };
+  //   //   await expect(usersService.validateBuffer(fakeFile as any))
+  //   //     .rejects.toThrow('File type not allowed');
+  //   // });
+  
+  //   // it('lança erro se arquivo ultrapassar 1MB', async () => {
+  //   //   const bigChunk = Buffer.alloc(1000001);
+  //   //   const fakeFile = {
+  //   //     mimetype: 'image/png',
+  //   //     file: (async function* () { yield bigChunk; })()
+  //   //   };
+  
+  //   //   await expect(usersService.validateBuffer(fakeFile as any)).rejects.toThrow('File exceeds');
+  //   // });
+  // });
 })

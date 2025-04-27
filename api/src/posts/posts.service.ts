@@ -12,46 +12,50 @@ export class PostsService {
 	constructor(private prisma: PrismaService) {}
 
 	async findAll(pagination: PaginationDto): Promise<ResponseOtherDto[]> {
-		const { limit = 6, offset = 0 } = pagination;
-
-		const posts = await this.prisma.posts.findMany({
-			select: {
-				id: true,
-				title: true,
-				introduction: true,
-				story: true,
-				conclusion: true,
-				created_at: true,
-				user: {
-					select: {
-						id: true,
-						name: true,
-						email: true,
-						created_at: true
-					}
-				},
-				Comments: {
-					select: {
-						comment: true,
-						id: true,
-						user: {
-							select: {
-								name: true,
-								email: true,
-								created_at: true
+		try {
+			const { limit = 6, offset = 0 } = pagination;
+	
+			const posts = await this.prisma.posts.findMany({
+				select: {
+					id: true,
+					title: true,
+					introduction: true,
+					story: true,
+					conclusion: true,
+					created_at: true,
+					user: {
+						select: {
+							id: true,
+							name: true,
+							email: true,
+							created_at: true
+						}
+					},
+					Comments: {
+						select: {
+							comment: true,
+							id: true,
+							user: {
+								select: {
+									name: true,
+									email: true,
+									created_at: true
+								}
 							}
 						}
 					}
-				}
-			},
-			take: limit,
-			skip: offset,
-			orderBy: {
-				title: 'asc',
-			},
-		});
-
-		return posts;
+				},
+				take: limit,
+				skip: offset,
+				orderBy: {
+					title: 'asc',
+				},
+			});
+	
+			return posts;
+		} catch (error) {
+			throw new HttpException('Error retrieving posts', HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	async findById(id: string): Promise<ResponseOtherDto> {

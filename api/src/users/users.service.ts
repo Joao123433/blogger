@@ -162,7 +162,6 @@ export class UsersService {
   async uploadFile(req: FastifyRequest, payloadToken: PayloadDto): Promise<ResponseUpdateAvatarDto> {
     try {
       const file = await req.file();
-      console.log()
       if(!file || file.filename === '') throw new HttpException("No file provided", HttpStatus.NO_CONTENT)
 
       // CONFIGS

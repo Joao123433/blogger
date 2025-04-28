@@ -484,40 +484,4 @@ describe("User Service", () => {
       )
     })
   })
-  //   it('retorna buffer válido se tipo e tamanho estiverem corretos', async () => {
-  //     const fakeFile: Multipart = {
-  //       filename: "mocked-id.png",
-  //       mimetype: 'image/png',
-  //       file: (async function* () { 
-  //         yield Buffer.from('chunk1'); 
-  //         yield Buffer.from('chunk2'); 
-  //       })() as unknown as BusboyFileStream,
-  //       type: 'file',
-  //       toBuffer: async () => Buffer.concat([Buffer.from('chunk1'), Buffer.from('chunk2')]),
-  //       fieldname: 'file',
-  //       encoding: '7bit',
-  //       fields: {}
-  //     };
-
-  //     const result = await usersService.validateBuffer(fakeFile);
-  //     console.log(result)
-  //     // expect(result.toString()).toBe('chunk1chunk2');
-  //   });
-  
-  //   // it('lança erro se tipo de arquivo for inválido', async () => {
-  //   //   const fakeFile = { mimetype: 'text/plain', file: [] };
-  //   //   await expect(usersService.validateBuffer(fakeFile as any))
-  //   //     .rejects.toThrow('File type not allowed');
-  //   // });
-  
-  //   // it('lança erro se arquivo ultrapassar 1MB', async () => {
-  //   //   const bigChunk = Buffer.alloc(1000001);
-  //   //   const fakeFile = {
-  //   //     mimetype: 'image/png',
-  //   //     file: (async function* () { yield bigChunk; })()
-  //   //   };
-  
-  //   //   await expect(usersService.validateBuffer(fakeFile as any)).rejects.toThrow('File exceeds');
-  //   // });
-  // });
 })

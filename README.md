@@ -5,16 +5,17 @@
 Este projeto utiliza as seguintes tecnologias:
 
 - **Frontend:** React + Styled Components
-- **Backend:** Node.js + Fastify + Drizzle ORM + PostgreSQL + Docker
+- **Backend:** Nest.js + Fastify + Prisma ORM + PostgreSQL
 - **Autenticação:** JWT para login de usuário e persistência de login
 
 ## 📂 Estrutura do Projeto
 
 ```
 /blogger
-│── client/  # Aplicação React + Styled Components
-│── server   # API Node + Fastify + Drizzle ORM + PostgreSQL + Docker
-│── README.md  # Documentação Principal
+│── client/     # Aplicação React + Styled Components
+│── server      # (DEPRECATED) API Node + Fastify + Drizzle ORM + PostgreSQL + Docker
+│── api         # API Nest.js + Fastify + Prisma ORM + PostgreSQL + Docker
+│── README.md   # Documentação Principal
 ```
 
 ## 🔐 Autenticação
@@ -51,13 +52,11 @@ Acesse a aplicação em `http://localhost:5173`.
 
 ```sh
 cd server
-yarn  # Instala todas as dependências
-cp .env.example .env  # Configurar variáveis de ambiente
-docker-compose up -d  # Inicializar o banco de dados
-yarn drizzle-kit generate  # Gerar migrações do banco
-yarn drizzle-kit migrate  # Aplicar migrações
-yarn seed  # Popular o banco de dados
-yarn dev  # Iniciar o servidor
+yarn                      # Instala todas as dependências
+cp .env.example .env      # Configurar variáveis de ambiente
+yarn prisma migrate dev   # Gerar migrações do banco
+yarn seed                 # Aplicar migrações
+yarn start:dev            # Iniciar o servidor
 ```
 
 A API estará disponível em `http://localhost:3000`. 

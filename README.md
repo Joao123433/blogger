@@ -13,8 +13,8 @@ Este projeto utiliza as seguintes tecnologias:
 ```
 /blogger
 │── client/     # Aplicação React + Styled Components
-│── server      # (DEPRECATED) API Node + Fastify + Drizzle ORM + PostgreSQL + Docker
-│── api         # API Nest.js + Fastify + Prisma ORM + PostgreSQL + Docker
+│── server/     # (DEPRECATED) API Node + Fastify + Drizzle ORM + PostgreSQL + Docker
+│── api/        # API Nest.js + Fastify + Prisma ORM + PostgreSQL + Docker
 │── README.md   # Documentação Principal
 ```
 

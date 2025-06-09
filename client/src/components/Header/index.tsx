@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { DrawerContainer, HamburguerContainer, HeaderContainer, NavContainer } from "./styles";
-import { List, User, X } from "phosphor-react";
+import { List, X } from "phosphor-react";
 import { useState } from "react";
 
 export function Header() {
@@ -15,8 +15,8 @@ export function Header() {
         <NavLink to="/">Home</NavLink>
         <NavLink to="/about">About</NavLink>
         <NavLink to="/news">News</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
-        <User size={25} />
+        {/* <NavLink to="/contact">Contact</NavLink> */}
+        {/* <User size={25} /> */}
       </NavContainer>
       <HamburguerContainer>
         <List size={32} onClick={() => setOpen(true)} />
@@ -25,8 +25,8 @@ export function Header() {
           <NavLink to="/" onClick={() => setOpen(false)}>Home</NavLink>
           <NavLink to="/about" onClick={() => setOpen(false)}>About</NavLink>
           <NavLink to="/news" onClick={() => setOpen(false)}>News</NavLink>
-          <NavLink to="/contact" onClick={() => setOpen(false)}>Contact</NavLink>
-          <NavLink to="/login" onClick={() => setOpen(false)}>User</NavLink>
+          {/* <NavLink to="/contact" onClick={() => setOpen(false)}>Contact</NavLink>
+          <NavLink to="/login" onClick={() => setOpen(false)}>User</NavLink> */}
         </DrawerContainer>
       </HamburguerContainer>
     </HeaderContainer>

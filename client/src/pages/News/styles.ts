@@ -46,26 +46,35 @@ export const BlogsContainer = styled.section`
       }
     }
 
-    a {
-      font-size: 2.6rem;
-      font-weight: 800;
-      text-decoration: none;
-      line-height: 3rem;
-      color: ${(props) => props.theme['text-black']};
-
-      &:hover {
-        color: ${(props) => props.theme['gray-600']};
-      }
-
-
-      @media (max-width: 800px) {
-        font-size: 2rem;
-      }
-    }
-
     span {
       font-size: .9rem;
       color: ${(props) => props.theme['gray-600']};
+    }
+
+    p > a {
+      color: ${(props) => props.theme['text-black']};
+      font-size: 1rem;
+      text-decoration: none;
+    }
+
+    p > a:hover {
+      color: ${(props) => props.theme['gray-500']};
+    }
+  }
+
+  div > a {
+    font-size: 3rem;
+    font-weight: 800;
+    text-decoration: none;
+    line-height: 4rem;
+    color: ${(props) => props.theme['text-black']};
+
+    &:hover {
+      color: ${(props) => props.theme['gray-600']};
+    }
+
+    @media (max-width: 800px) {
+      font-size: 2rem;
     }
   }
 

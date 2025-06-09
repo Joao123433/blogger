@@ -1,7 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { FooterContainer } from "./styles";
+import { UsePosts } from "../../hooks/UsePosts";
 
 export function Footer() {
+  const { posts } = UsePosts()
+
   return (
     <FooterContainer>
       <section>
@@ -12,10 +15,9 @@ export function Footer() {
         <div>
           <h3>Popular Posts</h3>
           <nav>
-            <NavLink to="/news">Blog tips for beginners</NavLink>
-            <NavLink to="/news">Join Zabibas Global Giveaway</NavLink>
-            <NavLink to="/news">Why is living coral color of the year?</NavLink>
-            <NavLink to="/news">Venice Stay & Thoughts</NavLink>
+            {posts.map((post) => (
+              <NavLink to={`/news/new/${post.id}`}>{post.title}</NavLink>
+            ))}
           </nav>
         </div>
         <div>
